@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block signup %}{% endblock %}
+
+<link rel="stylesheet" href="{% static 'main.css'%}"/>
+
+{% block extra_links %}{% endblock %}
+{% block user_type %}{% endblock %}
+{% block user_avatar %}{% endblock %}
+
+{% block content %}
+<body class="commission-page">
+
+  <!-- ✅ First Video Section -->
+  <div class="video-section">
+    <video autoplay muted loop playsinline>
+      <source src="/media/hero-video.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- ✅ Commission Section -->
+  <section class="commission-section">
+
+    <!-- Background Video -->
+    <div class="bg-video-container">
+      <video autoplay muted loop playsinline class="bg-video">
+        <source src="/media/section-bg2.mp4" type="video/mp4">
+      </video>
+    </div>
+
+    <!-- Commission Cards -->
+    <div class="commission-grid">
+
+      <div class="commission-box">
+        <h3>Basic Plan – 2999</h3>
+        <p><strong>When you sell a Basic Plan:</strong>
+        • Level 1 → 40% (1200)<br>
+        • Level 2 → 8% (240)<br>
+        • Level 3 → 2% (60)</p>
+        <p><strong>When you sell higher plans:</strong>
+        • Standard → 42% (2940)<br>
+        • Advance → 44% (5720)<br>
+        • Pro → 46% (9200)</p>
+        <em>Fixed and passive income on every sale.</em>
+      </div>
+
+      <div class="commission-box">
+        <h3>Standard Plan – 6999</h3>
+        <p><strong>When you sell a Basic Plan:</strong>
+        • Level 1 → 40% (1200)<br>
+        • Level 2 → 8% (240)<br>
+        • Level 3 → 2% (60)</p>
+        <p><strong>When you sell higher plans:</strong>
+        • Standard → 45% (3150)<br>
+        • Advance → 47% (6110)<br>
+        • Pro → 50% (10000)</p>
+        <em>Fixed and passive income on every sale.</em>
+      </div>
+
+      <div class="commission-box">
+        <h3>Advance Plan – 12999</h3>
+        <p><strong>When you sell a Basic Plan:</strong>
+        • Level 1 → 42% (1260)<br>
+        • Level 2 → 8% (240)<br>
+        • Level 3 → 2% (60)</p>
+        <p><strong>When you sell higher plans:</strong>
+        • Standard → 48% (3360)<br>
+        • Advance → 52% (6760)<br>
+        • Pro → 55% (11000)</p>
+        <em>Fixed and passive income on every sale.</em>
+      </div>
+
+      <div class="commission-box">
+        <h3>Pro Plan – 19999</h3>
+        <p><strong>When you sell a Basic Plan:</strong>
+        • Level 1 → 45% (1350)<br>
+        • Level 2 → 8% (240)<br>
+        • Level 3 → 2% (60)</p>
+        <p><strong>When you sell higher plans:</strong>
+        • Standard → 52% (3640)<br>
+        • Advance → 56% (7280)<br>
+        • Pro → 60% (12000)</p>
+        <em>Fixed and passive income on every sale.</em>
+      </div>
+
+    </div>
+
+  <div class="earned-commissions">
+      <h2 style="text-align: center; color: white; margin-top: 40px;">Your Commission Earnings</h2>
+
+      {% if commissions %}
+        <table style="width: 90%; margin: 20px auto; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden;">
+          <thead style="background: #333; color: white;">
+            <tr>
+              <th style="padding: 12px;">From User</th>
+              <th style="padding: 12px;">Level</th>
+              <th style="padding: 12px;">Amount (PKR)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for c in commissions %}
+              <tr style="text-align: center;">
+                <td style="padding: 10px;">{{ c.referred_user.username }}</td>
+                <td>Level {{ c.level }}</td>
+                <td>PKR {{ c.amount }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p style="text-align: center; color: white; font-size: 18px;">You haven’t earned any commissions yet.</p>
+      {% endif %}
+    </div>
+
+  </section>
+
+  <!-- Invite a Friend Button -->
+  <button class="invite-friend-btn" id="inviteFriendBtn">
+    <span>🤝 Invite a Friend</span>
+  </button>
+ <script src="{% static 'js/script.js' %}"></script>
+</body>
+{% endblock %}

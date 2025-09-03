@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block signup %}{% endblock %}
+<link rel="stylesheet" href="{% static 'main.css'%}"/>
+
+{% block extra_links %}{% endblock %}
+{% block user_type %}{% endblock %}
+{% block user_avatar %}{% endblock %}
+
+{% block content %}
+<body class="team-reward-page">
+
+   <!-- ✅ First Video Section -->
+  <div class="video-section">
+    <video autoplay muted loop playsinline>
+      <source src="{% static 'Media/hero-video.mp4' %}" type="video/mp4">
+    </video>
+  </div>
+
+
+  <!-- ✅ Reward Section with Background Video -->
+  <section class="reward-section">
+    <div class="bg-video-container">
+      <video autoplay muted loop playsinline>
+        <source src="{% static 'Media/section-bg2.mp4' %}" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+
+    <h2>Refer & Earn Rewards</h2>
+
+    <div class="reward-grid">
+
+      <div class="reward-box">
+        <h3>Refer 10 Friends and Win a Stylish Watch</h3>
+        <p><strong>Condition:</strong> No condition</p>
+        <p><strong>Reward:</strong> Watch</p>
+      </div>
+
+      <div class="reward-box">
+        <h3>Refer 20 Friends and Receive Perfume + Wallet Gift</h3>
+        <p><strong>Condition:</strong> No condition</p>
+        <p><strong>Reward:</strong> Perfume + Wallet</p>
+      </div>
+
+      <div class="reward-box">
+        <h3>Refer 50 Friends to Get a Powerbank Gift</h3>
+        <p><strong>Condition:</strong> No condition</p>
+        <p><strong>Reward:</strong> Powerbank</p>
+      </div>
+
+      <div class="reward-box">
+        <h3>Refer 100 Friends and Unlock a Tour Package</h3>
+        <p><strong>Condition:</strong><br>
+          ✓ 5+ Advance Plan<br>
+          ✓ 5+ Pro Plan</p>
+        <p><strong>Reward:</strong> Tour Package</p>
+      </div>
+
+      <div class="reward-box">
+        <h3>Refer 300 Friends to Win a Mobile Gift</h3>
+        <p><strong>Condition:</strong><br>
+          ✓ 20+ Advance Plan<br>
+          ✓ 20+ Pro Plan</p>
+        <p><strong>Reward:</strong> Mobile</p>
+      </div>
+
+      <div class="reward-box">
+        <h3>Refer 500 Friends and Ride Home a New Bike</h3>
+        <p><strong>Condition:</strong><br>
+          ✓ 30+ Advance Plan<br>
+          ✓ 30+ Pro Plan</p>
+        <p><strong>Reward:</strong> Bike</p>
+      </div>
+
+      <div class="reward-box">
+        <h3>Refer 1000 Friends and Earn an Umrah Package</h3>
+        <p><strong>Condition:</strong><br>
+          ✓ 70+ Advance Plan<br>
+          ✓ 70+ Pro Plan</p>
+        <p><strong>Reward:</strong> Umrah Package</p>
+      </div>
+
+    </div>
+  </section>
+
+ <script src="{% static 'js/script.js' %}"></script>
+</body>
+{% endblock %}

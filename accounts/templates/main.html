@@ -1,0 +1,226 @@
+{% extends "base.html" %}
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'main.css'%}" />
+
+{% block signup %}
+      <div class="login-signup">
+             <a href="{% url 'login' %}" class="login-btn-liquid">Login/Signup</a>
+      </div>
+    {% endblock %}
+
+    {% block extra_links %}
+        <a href="#review">Reviews</a>
+        <a href="#plans">Plans</a>
+    {% endblock %}
+
+    {% block user_type %}
+    {% endblock %}
+
+    {% block user_avatar %}
+        {% endblock %}
+
+
+{% block content %}
+ <section class="hero-video">
+    <video id="introVideo" autoplay muted playsinline class="hero-full-video">
+      <source src="{% static 'Media/hero-section-bg.mp4' %}" type="video/mp4" />
+
+    </video>
+
+  </section>
+  <section id="plans" class="plans-section">
+
+    <div class="plans-video-background">
+      <video autoplay muted loop playsinline>
+        <source src="{% static 'Media/blue-waves.mp4' %}" type="video/mp4" />
+
+      </video>
+    </div>
+
+    <div class="plans-heading">
+      <h2>Choose Your Plan</h2>
+      <p class="subheading">
+        <strong>Turn your Learning into Earning — The Right Plan is your First Step.</strong>
+      </p>
+    </div>
+    <div class="plans-row">
+      <div class="plan-card basic">
+        <h3>Basic Plan – Rs. 2,999</h3>
+        <div class="plan-point">100+ Essential Learning Assets for Beginners<br>(Courses, Templates, Design Bundles &
+          More)</div>
+        <div class="plan-point">Best for Beginners and Students</div>
+        <div class="plan-point">Weekly Zoom Session</div>
+        <div class="plan-point">Certificate by Afaa Elevate</div>
+        <div class="plan-point">24/7 WhatsApp Support</div>
+        <div class="plan-point">Lifetime Access to All Content</div>
+        <div class="plan-point">Start Learning and Unlock Your Earning Journey</div>
+         <a class="enroll-btn" href="{% url 'payments' %}">Enroll & Start Earning Now</a>
+      </div>
+
+      <div class="plan-card standard">
+        <h3>Standard Plan – Rs. 6,999</h3>
+        <div class="plan-point">300+ Resources for Skill Building & Job Hunting<br>(Mockups, Courses, Tools, Real Case
+          Studies & More)</div>
+        <div class="plan-point">Best for Skill Builders and Job Seekers</div>
+        <div class="plan-point">Weekly Zoom Session</div>
+        <div class="plan-point">Certificate by Afaa Elevate</div>
+        <div class="plan-point">24/7 WhatsApp Support</div>
+        <div class="plan-point">Lifetime Access to All Content</div>
+        <div class="plan-point">Learn, Apply, and Start Earning Online</div>
+         <a class="enroll-btn" href="{% url 'payments' %}">Enroll & Start Earning Now</a>
+      </div>
+    </div>
+
+    <div class="plans-row">
+      <div class="plan-card advance">
+        <h3>Advance Plan – Rs. 13,999</h3>
+        <div class="plan-point">1000+ Premium Digital Tools & Skill Assets<br>(Themes, Plugins, Freelancing Kits, AI
+          Tools, Software & More)</div>
+        <div class="plan-point">Best for Freelancer & Learners who want to Turn Skills into Income</div>
+        <div class="plan-point">Weekly Zoom Session</div>
+        <div class="plan-point">Certificate by Afaa Elevate</div>
+        <div class="plan-point">24/7 WhatsApp Support</div>
+        <div class="plan-point">Lifetime Access to All Content</div>
+        <div class="plan-point">Learn High-Demand Skills for Freelancing Platforms</div>
+         <a class="enroll-btn" href="{% url 'payments' %}">Enroll & Start Earning Now</a>
+      </div>
+
+      <div class="plan-card pro">
+        <h3>Pro Plan – Rs. 19,999</h3>
+        <div class="plan-point">5000+ Premium Tools & Digital Resources for Professionals<br>(Courses, Software,
+          Business Kits, 4TB Data, Reels, Templates & More)</div>
+        <div class="plan-point">Best for Professionals and Business-Minded Learners</div>
+        <div class="plan-point">Weekly Zoom Session</div>
+        <div class="plan-point">Certificate by Afaa Elevate</div>
+        <div class="plan-point">24/7 WhatsApp Support</div>
+        <div class="plan-point">Lifetime Access to All Content</div>
+        <div class="plan-point">Master Digital Skills and Expand Your Income</div>
+         <a class="enroll-btn" href="{% url 'payments' %}">Enroll & Start Earning Now</a>
+      </div>
+    </div>
+  </section>
+  <section class="container why-section">
+    <h2 class="highlight-heading">💎 Why Choose Afaa Elevate</h2>
+
+    <div class="feature-block">
+      <div class="feature-text">
+        <h3 class="highlight-heading">✅ Real Experts. Real Resources. Real Results.</h3>
+        <p class="bold-line">Afaa Elevate isn’t Built on Hype — it’s Powered by Experience, Credibility, & Unmatched
+          Digital Value. Here’s Why Smart Learners Choose Us:</p>
+      </div>
+             <div class="feature-image">
+         <img src="{% static 'Media/hero-growth.jpg.jpg' %}" alt="Afaa Elevate Hero" />
+       </div>
+    </div>
+
+    <div class="feature-block reverse">
+      <div class="feature-text">
+        <h3 class="highlight-heading">🧠 Learn From the Best in the World</h3>
+        <p class="bold-line">We bring you Courses from Top International Mentors, Youtubers, & Industry Experts with
+          10–15+ years of Experience. These aren’t Random Tutorials — they are Premium, Paid Programs from people who’ve
+          Built Brands & Real Success.</p>
+      </div>
+             <div class="feature-image">
+         <img src="{% static 'Media/learn-mentors.jpg.jpg' %}" alt="Mentor Courses" />
+       </div>
+    </div>
+
+    <div class="feature-block">
+      <div class="feature-text">
+        <h3 class="highlight-heading">📚 Everything You Need, All in One Place</h3>
+        <p class="bold-line">From freelancing & Digital Marketing, to AI Tools, Content Creation, Graphic Design, Video
+          Editing, Shopify, Trading, Blogging, & More — You’ll get Access to Every Tool, Every Course, Every Premium
+          Resource You’ll Ever Need.</p>
+      </div>
+             <div class="feature-image">
+         <img src="{% static 'Media/tools-courses.jpg.jpg' %}" alt="Courses & Tools" />
+       </div>
+    </div>
+
+    <div class="feature-block reverse">
+      <div class="feature-text">
+        <h3 class="highlight-heading">🚀 More Than Just Learning — It’s Earning</h3>
+        <p class="bold-line">Our system is Built Not just to Teach — but to Help you Start Earning Fast. With Practical
+          Tools, Project-based Learning, & our Refer & Earn Program, you can Learn & Earn Together.</p>
+      </div>
+             <div class="feature-image">
+         <img src="{% static 'Media/earn-system.jpg.jpg' %}" alt="Earn with Learning" />
+       </div>
+    </div>
+
+    <div class="feature-block">
+      <div class="feature-text">
+        <h3 class="highlight-heading">💼 Built for Freelancers, Creators & Doers</h3>
+        <p class="bold-line">Whether you Want to Become A Freelancer, YouTuber, designer, or Digital Entrepreneur — Afaa
+          Elevate gives you Everything In One Single Lifetime-access Platform.</p>
+      </div>
+             <div class="feature-image">
+         <img src="{% static 'Media/freelancer-setup.jpg.jpg' %}" alt="Freelancer Setup" />
+       </div>
+    </div>
+
+    <div class="feature-block reverse">
+      <div class="feature-text">
+        <h3 class="highlight-heading">🌍 Global Reach — Freelance From Anywhere</h3>
+        <p class="bold-line">With Lifetime Access, Future Updates, No Monthly Fees, & Payment Options like JazzCash &
+          EasyPaisa, Afaa Elevate is Proudly built in Pakistan — but Designed to Help you Grow Globally.</p>
+      </div>
+             <div class="feature-image">
+         <img src="{% static 'Media/global-connect.jpg.jpg' %}" alt="Global Support" />
+       </div>
+    </div>
+
+    <!-- <div class="feature-block">
+    <div class="feature-text">
+      <h3 class="highlight-heading">💬 24/7 WhatsApp Support — We’re Always With You</h3>
+      <p class="bold-line">Confused or stuck? You’re Never Alone. Afaa Elevate Offers 24/7 WhatsApp Support to Guide You through Every Step — Learning, Setup, or Technical Help. Just Send us a Message — We’re Always just one tap Away.</p>
+    </div>
+    <div class="feature-image">
+      <img src="Media/whatsapp-help.jpg.jpg" alt="WhatsApp Help" />
+    </div>
+  </div> -->
+  </section>
+
+  
+  <section id="review" class="testimonial-section">
+    <h2 class="testimonial-heading">What Learners Say About Afaa Elevate</h2>
+    <div class="testimonial-container">
+
+      <div class="testimonial-box">
+        <p class="testimonial-text">
+          <strong>I had no idea where to start with freelancing, but Afaa Elevate gave me the exact
+            roadmap.</strong><br>
+          Within weeks, I was landing my first projects. It's like someone finally handed me the real guide.
+        </p>
+        <p class="testimonial-user">@daniyal786</p>
+      </div>
+
+      <div class="testimonial-box">
+        <p class="testimonial-text">
+          <strong>Design, content creation, AI tools — everything is in one place.</strong><br>
+          I didn’t have to look anywhere else. I saved months of research and hundreds of dollars. Total game changer!
+        </p>
+        <p class="testimonial-user">@sana_dev</p>
+      </div>
+
+      <div class="testimonial-box">
+        <p class="testimonial-text">
+          <strong>YouTube was all noise. Afaa Elevate gave me premium content that’s structured and straight to the
+            point.</strong><br>
+          No distractions. Just pure, focused learning. Totally worth it..... Highly Recommended
+        </p>
+        <p class="testimonial-user">@imran_22</p>
+      </div>
+
+    </div>
+  </section>
+
+
+
+  <!-- Invite a Friend Button -->
+  <button class="invite-friend-btn" id="inviteFriendBtn">
+    <span>🤝 Invite a Friend</span>
+  </button>
+  <script src="{% static 'js/script.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,101 @@
+{% load static %}
+{% load socialaccount %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Up - Afaa Elevate Digital Academy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'main.css' %}" />
+</head>
+<body>
+  <header class="navbar">
+  <div class="nav-logo">
+     <a href="{% url 'home' %}"> <img src="{% static 'Media/logo.png' %}" alt="Afaa Elevate Logo" /></a>
+    </div>
+
+
+    <div class="login-signup">
+      <a href="{% url 'login' %}" class="login-btn-liquid">Login</a>
+    </div>
+
+  </header>
+
+  <section class="signup-section">
+    <div class="signup-container">
+      <div class="signup-card">
+        <h2>Join Afaa Elevate</h2>
+        <p class="auth-subtext">Start your digital learning journey today</p>
+        
+        <form class="signup-form">
+          <div class="form-group">
+            <label for="fullname">Full Name</label>
+            <input type="text" id="fullname" placeholder="Enter your full name" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="Enter your email" required>
+          </div>
+
+            <div class="form-group">
+              <label for="mobile">Mobile Number</label>
+              <input type="tel" id="mobile" placeholder="Enter your mobile number" required pattern="[0-9]{10,15}">
+            </div>
+
+            <div class="form-group">
+              <label for="referral">Referral Code (Optional)</label>
+              <input type="text" id="referral" placeholder="Enter referral code (if any)">
+            </div>
+          
+          <div class="form-group">
+            <label for="dob">Date of Birth</label>
+            <input type="date" id="dob" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Create a password" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="confirm-password">Confirm Password</label>
+            <input type="password" id="confirm-password" placeholder="Confirm your password" required>
+          </div>
+          
+          <div class="form-check">
+            <input type="checkbox" id="terms" required>
+            <label for="terms">I agree to the <a href="#">Terms & Conditions</a> and <a href="#">Privacy Policy</a></label>
+          </div>
+          
+          <button type="submit" class="auth-btn">Create Account</button>
+          
+          <div class="auth-divider">
+            <span>or</span>
+          </div>
+          
+          <div class="social-login">
+            <a href="{% provider_login_url 'google' %}" class="social-btn google">
+              <img src="{% static 'Media/google-icon.svg' %}" alt="Google">
+              Continue with Google
+            </a>
+          </div>
+          
+          <p class="auth-switch">Already have an account? <a href="{% url 'login' %}">Login</a></p>
+        </form>
+      </div>
+      
+      <div class="signup-hero">
+        <img style="opacity: 0.9;" src="{% static 'Media/signup.jpg' %}" alt="Digital Learning">
+        <div class="signup-quote">
+          <h3>Start Earning While Learning</h3>
+          <p>Get access to premium resources and start your freelancing journey.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="{% static 'script.js' %}"></script>
+</body>
+</html>

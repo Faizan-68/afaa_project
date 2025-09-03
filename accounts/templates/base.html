@@ -1,0 +1,122 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Afaa Elevate Digital Academy</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="{% static 'main.css'%}" />
+    {% block extra_css %}{% endblock %}
+  </head>
+
+  <body>
+    <header class="navbar">
+      <div class="nav-logo">
+        <a href="{% url 'home'%}"
+          ><img src="{% static 'Media/logo.png' %}" alt="Afaa Elevate Logo"
+        /></a>
+      </div>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="{% url 'home'%}" class="nav-link active">Home</a>
+        <a href="{% url 'courses'%}" class="nav-link">Courses</a>
+        <a href="{% url 'dashboard'%}" class="nav-link">Dashboard</a>
+        <a href="#contact" class="nav-link">Contact</a>
+        <div class="dropdown">
+          <a href="#" class="nav-link dropdown-btn">Other ▼</a>
+          <div class="dropdown-content">
+            <a href="{% url 'commission'%}">Commissions</a>
+            <a href="{% url 'rewards'%}">Team Rewards</a>
+            <a href="{% url 'payments'%}">Payments</a>
+            {% block extra_links %}
+            <a href="#review">Reviews</a>
+            <a href="#plans">Plans</a>
+            {% endblock %}
+          </div>
+        </div>
+      </nav>
+
+      {% block signup %}
+      <div class="login-signup">
+        <a href="{% url 'login'%}" class="login-btn-liquid">Login/Signup</a>
+      </div>
+      {% endblock %} {% block user_type %}
+      <div class="user-type">Standard User</div>
+      {% endblock %}
+
+      <div class="menu-toggle" id="menuToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+      {% block user_avatar %}
+      <div class="user-avatar" id="userAvatar" tabindex="0">
+        F
+        <div class="user-panel" id="userPanel">
+          <div class="user-name">Ali Raza</div>
+          <div class="user-email">ali.raza@email.com</div>
+          <div class="ref-label">Referral Code</div>
+          <div class="ref-row">
+            <span class="ref-code" id="refCode">AFAA1234</span>
+            <button class="copy-btn" id="copyRefBtn">Copy</button>
+          </div>
+          <button class="logout-btn" id="logoutBtn">Log Out</button>
+        </div>
+      </div>
+      {% endblock %}
+    </header>
+
+    {% block content %}{% endblock %}
+
+
+  <footer id="contact" class="footer">
+    <div class="footer-container">
+
+      <div class="footer-section logo-section">
+        <img src="Media/logo.png" alt="Afaa Elevate Logo" class="footer-logo">
+        <p class="footer-tagline"><strong>Learn, Achieve and Elevate Your Future</strong></p>
+        <div class="footer-contact">
+          <p class="contact-info"><i class="fas fa-phone"></i> +92 326 0143441</p>
+          <p class="contact-info"><i class="fas fa-map-marker-alt"></i> Labar Moor Old Shujabad Road, Multan Cantt</p>
+        </div>
+      </div>
+
+      <div class="footer-section center-section">
+        <h3 class="footer-title">Support</h3>
+        <a href="https://wa.link/lrvurn" target="_blank" class="footer-btn">WhatsApp Support</a>
+
+        <h3 class="footer-title">Legal</h3>
+        <a href="{% url 'terms_conditions' %}" class="footer-btn">Terms & Conditions</a>
+        <a href="{% url 'privacy_policy' %}" class="footer-btn">Privacy Policy</a>
+        <a href="Media/fbr_registration.jpg" class="footer-btn" download>FBR Registration</a>
+      </div>
+
+      <div class="footer-section social-section">
+        <h3 class="footer-title">Follow Us</h3>
+        <a href="#" class="footer-btn">Facebook</a>
+        <a href="#" class="footer-btn">Instagram</a>
+        <a href="#" class="footer-btn">YouTube</a>
+        <a href="#" class="footer-btn">WhatsApp</a>
+      </div>
+    </div>
+
+    <div class="copyright">
+      &copy; 2025 Afaa Elevate. All rights reserved.
+    </div>
+  </footer>
+  <!-- Invite a Friend Button -->
+  <button class="invite-friend-btn" id="inviteFriendBtn">
+    <span>🤝 Invite a Friend</span>
+  </button>
+  <script src="script.js"></script>
+    {% comment %} <script src="{% static 'script.js'%}"></script> {% endcomment %}
+    <script src="{% static 'accounts/js/script.js' %}"></script>
+  </body>
+</html>

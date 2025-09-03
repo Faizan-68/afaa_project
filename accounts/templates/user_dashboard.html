@@ -1,0 +1,201 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block signup %}{% endblock %}
+
+
+  <link rel="stylesheet" href="{% static 'main.css'%}"/>
+
+
+{% block extra_links %}{% endblock %}
+
+{% block user_type %}
+    <div class="user-type">Standard User</div>
+    {% endblock %}
+
+
+    {% block user_avatar %}
+          <div class="user-avatar" id="userAvatar" tabindex="0">F
+            <div class="user-panel" id="userPanel">
+                <div class="user-name">Ali Raza</div>
+                <div class="user-email">ali.raza@email.com</div>
+                <div class="ref-label">Referral Code</div>
+                <div class="ref-row">
+                    <span class="ref-code" id="refCode">AFAA1234</span>
+                    <button class="copy-btn" id="copyRefBtn">Copy</button>
+                </div>
+                <button class="logout-btn" id="logoutBtn">Log Out</button>
+            </div>
+        </div>
+        {% endblock %}
+
+
+{% block content %}
+   <body class="user-dashboard">
+
+    <div class="plan-title">My Courses</div>
+    <div class="courses-row">
+        <div class="course-box">
+            <div class="thumbnail"> <img src="/media/courses_thumbnails/python.jpg" alt=""></div>
+            <h3 class="course-title">Complete Python Bootcamp</h3>
+            <p class="course-description">
+                Master Python programming from zero to hero. This course covers everything from basic syntax to advanced
+                concepts like OOP, file handling, and libraries like Pandas, NumPy, and more. Perfect for beginners and
+                experienced coders alike who want to solidify their Python skills for real-world applications and
+                projects.
+            </p>
+            <button class="see-more-btn">See More</button>
+            <button class="start-learning-btn">Start Learning</button>
+        </div>
+    </div>
+    </div>
+
+
+
+    <section class="container mt-40 mb-40 bg-white br-20 shadow-lg p-40-20">
+        <div class="plans-heading mb-40">
+            <h2 class="color-primary">🏆 Team Reward Dashboard</h2>
+            <p class="subheading color-secondary">Track your progress and unlock amazing rewards</p>
+        </div>
+        <div class="plans-row mb-40">
+            <div class="plan-card bg-light color-primary">
+                <h3 class="color-primary">Basic Plans Sold</h3>
+                <div class="stat-number">20</div>
+            </div>
+            <div class="plan-card bg-light color-primary">
+                <h3 class="color-primary">Standard Plans Sold</h3>
+                <div class="stat-number">25</div>
+            </div>
+            <div class="plan-card bg-light color-primary">
+                <h3 class="color-primary">Advance Plans Sold</h3>
+                <div class="stat-number">8</div>
+            </div>
+            <div class="plan-card bg-light color-primary">
+                <h3 class="color-primary">Pro Plans Sold</h3>
+                <div class="stat-number">3</div>
+            </div>
+
+        </div>
+        <div class="plans-row mb-40">
+            <div style="width: auto!important; min-width: 260px;" class="plan-card bg-light color-primary">
+                <h3 class="color-primary">Total Referrals</h3>
+                <div class="stat-number">150</div>
+            </div>
+
+            <div style="width: auto!important; min-width: 260px;" class="plan-card bg-light color-primary">
+                <h3 class="color-primary">Total Rewards Earned</h3>
+                <div class="stat-number">Rs 11,500</div>
+            </div>
+        </div>
+        <div class="plans-heading mb-30">
+            <h2 class="color-primary">🎁 Reward Progress</h2>
+        </div>
+        <div class="testimonial-container testimonial-gap">
+            <!-- Reward 1: Earned -->
+            <div class="testimonial-box testimonial-box-earned">
+                <h3 class="color-primary">Watch <span class="reward-status reward-earned">Earned</span></h3>
+                <div class="referral-row">
+                    <div class="reward-amount reward-earned">Rs 1,500</div>
+                    <div class="referral-count">7/10</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill-earned"></div>
+                </div>
+                <div class="color-secondary">Referrals: 7/10 (70%)</div>
+            </div>
+            <!-- Reward 2: Earned -->
+            <div class="testimonial-box testimonial-box-earned">
+                <h3 class="color-primary">Perfume+Wallet <span class="reward-status reward-earned">Earned</span></h3>
+                <div class="referral-row">
+                    <div class="reward-amount reward-earned">Rs 3,000</div>
+                    <div class="referral-count">17/20</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill-earned"></div>
+                </div>
+                <div class="color-secondary">Referrals: 18/20 (90%)</div>
+            </div>
+
+            <!-- Reward 3: Earned -->
+            <div class="testimonial-box testimonial-box-earned">
+                <h3 class="color-primary">Powerbank <span class="reward-status reward-earned">Earned</span></h3>
+                <div class="referral-row">
+                    <div class="reward-amount reward-earned">Rs 7,000</div>
+                    <div class="referral-count">34/50</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill-earned"></div>
+                </div>
+                <div class="color-secondary">Referrals: 10/50 (100%)</div>
+            </div>
+            <!-- Reward 4: Conditions Pending -->
+            <div class="testimonial-box testimonial-box-conditions">
+                <h3 class="color-primary">Tour Package <span class="reward-status reward-conditions">Conditions
+                        Pending</span></h3>
+                <div class="referral-row">
+                    <div class="reward-amount reward-conditions">Rs 15,000</div>
+                    <div class="referral-count">70/100</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill-conditions"></div>
+                </div>
+                <div class="reward-conditions-row">
+                    <span class="reward-conditions-advance">Advance Plans: 8/5 ✓</span> &nbsp; <span
+                        class="reward-conditions-pro">Pro Plans: 3/5 ✗</span>
+                </div>
+            </div>
+            <!-- Reward 5: In Progress -->
+            <div class="testimonial-box testimonial-box-inprogress">
+                <h3 class="color-primary">Mobile <span class="reward-status reward-inprogress">In Progress</span></h3>
+                <div class="referral-row">
+                    <div class="reward-amount reward-inprogress">Rs 50,000</div>
+                    <div class="referral-count">150/300</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill-inprogress-50"></div>
+                </div>
+                <div class="reward-conditions-row">
+                    <span class="reward-conditions-pro">Advance Plans: 8/20 ✗</span> &nbsp; <span
+                        class="reward-conditions-pro">Pro Plans: 3/20 ✗</span>
+                </div>
+            </div>
+            <!-- Reward 6: In Progress -->
+            <div class="testimonial-box testimonial-box-inprogress">
+                <h3 class="color-primary">Bike <span class="reward-status reward-inprogress">In Progress</span></h3>
+                <div class="referral-row">
+                    <div class="reward-amount reward-inprogress">Rs 90,000</div>
+                    <div class="referral-count">150/500</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill-inprogress-30"></div>
+                </div>
+                <div class="reward-conditions-row">
+                    <span class="reward-conditions-pro">Advance Plans: 8/30 ✗</span> &nbsp; <span
+                        class="reward-conditions-pro">Pro Plans: 3/30 ✗</span>
+                </div>
+            </div>
+            <!-- Reward 7: In Progress -->
+            <div class="testimonial-box testimonial-box-inprogress">
+                <h3 class="color-primary">Umrah Package <span class="reward-status reward-inprogress">In Progress</span>
+                </h3>
+                <div class="referral-row">
+                    <div class="reward-amount reward-inprogress">Rs 2,20,000</div>
+                    <div class="referral-count">150/1000</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill-inprogress-15"></div>
+                </div>
+                <div class="reward-conditions-row">
+                    <span class="reward-conditions-pro">Advance Plans: 8/70 ✗</span> &nbsp; <span
+                        class="reward-conditions-pro">Pro Plans: 3/70 ✗</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Invite a Friend Button -->
+    <button class="invite-friend-btn" id="inviteFriendBtn">
+      <span>🤝 Invite a Friend</span>
+    </button>
+</body>
+{% endblock %}
