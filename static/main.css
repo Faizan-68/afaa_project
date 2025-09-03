@@ -2058,11 +2058,13 @@ body {
   width: 100%;
   min-height: calc(100vh - 80px);
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   background: #f8f8f8;
   padding: 100px 40px 60px;
   box-sizing: border-box;
+  flex-direction: column;
+  /* justify-content: center; */
 }
 
 .payment-section {
@@ -5004,6 +5006,204 @@ body {
   .policy-section li,
   .terms-section li {
     font-size: 0.95rem;
+    padding-left: 20px;
+  }
+}
+
+
+/* Payment Instructions Styles */
+.payment-instructions {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border-radius: 20px;
+  padding: 40px;
+  margin-bottom: 40px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  border: 1px solid rgba(56,189,248,0.2);
+}
+
+.instructions-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #0f172a;
+  text-align: center;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.instructions-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #0077b6, #38bdf8);
+  border-radius: 2px;
+}
+
+.instructions-container {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  margin-bottom: 30px;
+}
+
+.instruction-step {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  padding: 20px;
+  background: rgba(255,255,255,0.8);
+  border-radius: 12px;
+  border: 1px solid rgba(56,189,248,0.15);
+  transition: transform 0.3s ease;
+}
+
+.instruction-step:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(56,189,248,0.1);
+}
+
+.step-number {
+  background: linear-gradient(135deg, #0077b6, #38bdf8);
+  color: white;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.step-content {
+  flex: 1;
+}
+
+.step-content h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #0f172a;
+  margin-bottom: 8px;
+}
+
+.step-content p {
+  color: #475569;
+  line-height: 1.5;
+  font-size: 1rem;
+}
+
+.whatsapp-contact {
+  display: inline-block;
+  background: #25D366;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  margin-top: 8px;
+  font-size: 0.95rem;
+}
+
+.payment-note {
+  background: #fffbeb;
+  border-left: 4px solid #f59e0b;
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 30px;
+}
+
+.payment-note h3 {
+  color: #92400e;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.payment-note ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.payment-note li {
+  color: #78350f;
+  padding-left: 24px;
+  position: relative;
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.payment-note li::before {
+  content: "•";
+  color: #f59e0b;
+  font-weight: bold;
+  position: absolute;
+  left: 8px;
+}
+
+/* Responsive design for payment instructions */
+@media (max-width: 768px) {
+  .payment-instructions {
+    padding: 25px;
+    margin-bottom: 30px;
+  }
+
+  .instructions-title {
+    font-size: 1.5rem;
+  }
+
+  .instruction-step {
+    padding: 15px;
+    gap: 15px;
+  }
+
+  .step-number {
+    width: 30px;
+    height: 30px;
+    font-size: 1rem;
+  }
+
+  .step-content h3 {
+    font-size: 1.1rem;
+  }
+
+  .step-content p {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .payment-instructions {
+    padding: 20px;
+    margin-bottom: 25px;
+  }
+
+  .instructions-title {
+    font-size: 1.3rem;
+  }
+
+  .instruction-step {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .step-content h3 {
+    font-size: 1rem;
+  }
+
+  .step-content p {
+    font-size: 0.9rem;
+  }
+
+  .payment-note h3 {
+    font-size: 1rem;
+  }
+
+  .payment-note li {
+    font-size: 0.9rem;
     padding-left: 20px;
   }
 }
