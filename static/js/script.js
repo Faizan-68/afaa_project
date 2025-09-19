@@ -1,137 +1,111 @@
-// Prevent multiple script execution
-if (window.scriptLoaded) {
-  console.log("Script already loaded, skipping...");
-} else {
-  window.scriptLoaded = true;
-  
-  document.addEventListener("DOMContentLoaded", function () {
-    console.log("Script.js loaded");
-    
-    // Menu toggle functionality
-    const menuToggle = document.getElementById("menuToggle");
-    const navLinks = document.getElementById("navLinks");
+document.addEventListener('DOMContentLoaded', function () {
+  console.log("Script initialized: Dropdown and Menu");
 
-    if (menuToggle && navLinks) {
-      // Remove any existing event listeners to prevent duplicates
-      const newMenuToggle = menuToggle.cloneNode(true);
-      menuToggle.parentNode.replaceChild(newMenuToggle, menuToggle);
-      
-      newMenuToggle.addEventListener("click", function () {
-        console.log("Menu toggle clicked");
-        navLinks.classList.toggle("active");
-        newMenuToggle.classList.toggle("active");
-      });
-    }
+  // Smooth typing animation for the hero section
+  const animatedTypingElement = document.getElementById('animatedTyping');
+  if (animatedTypingElement) {
+    const text = "Afaa Elevate";
+    let index = 0;
 
-    // User panel dropdown logic
-    const avatar = document.getElementById("userAvatar");
-    const panel = document.getElementById("userPanel");
-    if (avatar && panel) {
-      avatar.addEventListener("click", function (e) {
-        e.stopPropagation();
-        panel.classList.toggle("active");
-      });
-      document.addEventListener("click", function (e) {
-        if (!avatar.contains(e.target)) {
-          panel.classList.remove("active");
-        }
-      });
-    }
-    
-    // Copy referral code logic
-    const copyRefBtn = document.getElementById("copyRefBtn");
-    if (copyRefBtn) {
-      copyRefBtn.addEventListener("click", function () {
-        const code = document.getElementById("refCode").textContent;
-        navigator.clipboard.writeText(code);
-        this.textContent = "Copied!";
+    function type() {
+      if (index < text.length) {
+        animatedTypingElement.textContent += text.charAt(index);
+        index++;
+        setTimeout(type, 150); // Adjust speed here (milliseconds)
+      } else {
+        // Reset and loop
         setTimeout(() => {
-          this.textContent = "Copy";
-        }, 1200);
-      });
-    }
-    
-    // Logout button logic
-    const logoutBtn = document.getElementById("logoutBtn");
-    if (logoutBtn) {
-      logoutBtn.onclick = function () {
-        window.location.href = "login.html";
-      };
-    }
-    
-    // Invite friend button logic
-    const inviteFriendBtn = document.getElementById("inviteFriendBtn");
-    if (inviteFriendBtn) {
-      inviteFriendBtn.onclick = function () {
-        const msg = encodeURIComponent(
-          "Hey! Join me at Afaa Elevate Digital Academy for amazing courses. Use my referral code AFAA1234 to sign up: https://your-website.com"
-        );
-        window.open("https://wa.me/?text=" + msg, "_blank");
-      };
-    }
-
-    // See More button functionality (for courses page and user dashboard)
-    const seeMoreBtns = document.querySelectorAll('.see-more-btn');
-    if (seeMoreBtns.length > 0) {
-      console.log('Found', seeMoreBtns.length, 'see more buttons');
-      
-      seeMoreBtns.forEach((btn, index) => {
-        btn.addEventListener('click', function () {
-          console.log('Button clicked:', index);
-          const desc = this.previousElementSibling;
-          if (desc && desc.classList.contains('course-description')) {
-            desc.classList.toggle('expanded');
-            this.textContent = desc.classList.contains('expanded') ? 'See Less' : 'See More';
-            console.log('Description expanded:', desc.classList.contains('expanded'));
-          } else {
-            console.log('Description element not found or wrong class');
-          }
-        });
-      });
-    }
-
-    // Payment method selection and form toggle (for payments page)
-    const visaBox = document.getElementById('visaBox');
-    const mcBox = document.getElementById('mcBox');
-    const visaForm = document.getElementById('visaForm');
-    const mcForm = document.getElementById('mcForm');
-    
-    if (visaBox && mcBox && visaForm && mcForm) {
-      // Remove selected from all
-      function clearSelected() {
-        visaBox.classList.remove('selected');
-        mcBox.classList.remove('selected');
-        visaForm.style.display = 'none';
-        mcForm.style.display = 'none';
+          animatedTypingElement.textContent = "";
+          index = 0;
+          type();
+        }, 2000); // Pause before restarting
       }
-      
-      visaBox.addEventListener('click', function() {
-        if (!visaBox.classList.contains('selected')) {
-          clearSelected();
-          visaBox.classList.add('selected');
-          visaForm.style.display = 'block';
-        } else {
-          clearSelected();
+    }
+    type(); // Start the animation
+  }
+
+  // 1. Menu toggle for mobile navigation
+  const menuToggle = document.getElementById('menuToggle');
+  const navLinks = document.getElementById('navLinks');
+
+  if (menuToggle && navLinks) {
+    menuToggle.addEventListener('click', function () {
+      navLinks.classList.toggle('active');
+      menuToggle.classList.toggle('active');
+    });
+  }
+
+  // Close mobile menu when clicking on navigation links
+  if (navLinks) {
+    const navLinksAll = navLinks.querySelectorAll('.nav-link');
+    navLinksAll.forEach(link => {
+      link.addEventListener('click', function() {
+        if (navLinks.classList.contains('active')) {
+          navLinks.classList.remove('active');
+          if (menuToggle) {
+            menuToggle.classList.remove('active');
+          }
         }
       });
-      
-      mcBox.addEventListener('click', function() {
-        if (!mcBox.classList.contains('selected')) {
-          clearSelected();
-          mcBox.classList.add('selected');
-          mcForm.style.display = 'block';
-        } else {
-          clearSelected();
+    });
+  }
+
+  // Close mobile menu when clicking outside
+  document.addEventListener('click', function(e) {
+    if (navLinks && menuToggle) {
+      if (!navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
+        if (navLinks.classList.contains('active')) {
+          navLinks.classList.remove('active');
+          menuToggle.classList.remove('active');
         }
-      });
-      
-      // Prevent form submit (demo only)
-      document.querySelectorAll('.card-form form').forEach(f => {
-        f.addEventListener('submit', function(e) {
-          e.preventDefault();
-          alert('This is a demo. Payment processing is not implemented.');
-        });
-      });
+      }
     }
   });
+
+  // 2. User Dashboard Dropdown Logic
+  const userAvatar = document.getElementById('user-avatar');
+  const userDropdown = document.getElementById('user-dropdown-menu');
+
+  if (userAvatar && userDropdown) {
+    userAvatar.addEventListener('click', function (e) {
+      e.stopPropagation();
+      userDropdown.classList.toggle('active');
+    });
+  }
+
+  // 3. Close dropdown when clicking anywhere else on the page
+  document.addEventListener('click', function (e) {
+    if (userDropdown && userAvatar && !userAvatar.contains(e.target) && !userDropdown.contains(e.target)) {
+      if (userDropdown.classList.contains('active')) {
+        userDropdown.classList.remove('active');
+      }
+    }
+  });
+
+});
+
+// Toggle text function for course descriptions with smooth animation
+function toggleText(id) {
+  const element = document.getElementById('desc-' + id);
+  const button = element.nextElementSibling;
+  const fullText = element.getAttribute('data-full');
+  const shortText = fullText.length > 100 ? fullText.substring(0, 100) + '...' : fullText;
+  
+  const isExpanded = element.getAttribute('data-expanded') === 'true';
+  
+  if (!isExpanded) {
+    element.classList.add('expanded');
+    setTimeout(() => {
+      element.textContent = fullText;
+    }, 50);
+    button.textContent = 'See Less';
+    element.setAttribute('data-expanded', 'true');
+  } else {
+    element.classList.remove('expanded');
+    setTimeout(() => {
+      element.textContent = shortText;
+    }, 50);
+    button.textContent = 'See More';
+    element.setAttribute('data-expanded', 'false');
+  }
 }

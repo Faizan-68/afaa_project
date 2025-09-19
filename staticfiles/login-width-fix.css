@@ -1,0 +1,58 @@
+/* 🚀 CRITICAL WIDTH FIX - LOGIN CONTAINER */
+.login-container {
+  width: 420px !important;
+  max-width: 420px !important;
+  min-width: 320px !important;
+  margin: 0 auto !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+
+.login-card {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+
+.login-form {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.form-group {
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.error-container,
+.success-container {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  word-wrap: break-word !important;
+  word-break: break-word !important;
+  overflow: hidden !important;
+}
+
+.error-content,
+.success-content {
+  max-width: calc(100% - 30px) !important;
+  word-wrap: break-word !important;
+  word-break: break-word !important;
+  overflow: hidden !important;
+}
+
+/* Mobile specific fixes */
+@media (max-width: 480px) {
+  .login-container {
+    width: calc(100vw - 40px) !important;
+    max-width: 380px !important;
+    min-width: 280px !important;
+  }
+  
+  .login-card {
+    padding: 25px 20px !important;
+  }
+}

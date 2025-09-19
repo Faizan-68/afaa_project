@@ -1,5 +1,4 @@
 {% load static %}
-{% load socialaccount %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,57 +7,244 @@
   <title>Login - Afaa Elevate Digital Academy</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="{% static 'main.css' %}" />
+  <link rel="stylesheet" href="{% static 'login-width-fix.css' %}" />
 </head>
 <body>
   <header class="navbar">
-  <div class="nav-logo">
-     <a href="{% url 'home' %}"> <img src="{% static 'Media/logo.png' %}" alt="Afaa Elevate Logo" /></a>
+    <div class="nav-logo">
+      <a href="{% url 'home' %}">
+        <img src="{% static 'Media/logo.png' %}" alt="Afaa Elevate Logo" />
+      </a>
     </div>
-
-
 
     <div class="login-signup">
       <a href="{% url 'signup' %}" class="login-btn-liquid">Sign Up</a>
     </div>
-
   </header>
 
   <section class="login-section">
-    <div class="login-container">
-      <div class="login-card">
+    <div class="login-container" style="width: 400px !important; max-width: 400px !important; min-width: 300px !important;">
+      <div class="login-card" style="width: 100% !important; max-width: 100% !important; overflow: hidden !important;">
         <h2>Welcome Back!</h2>
         <p class="login-subtext">Login to continue your learning journey</p>
         
-        <form class="login-form">
-          <div class="form-group">
-            <label for="email">Email or Username</label>
-            <input type="text" id="email" placeholder="Enter your email or username" required>
+        <!-- ✅ Functional form with comprehensive error handling -->
+        <form method="post" action="{% url 'login' %}" class="login-form" style="width: 100% !important; max-width: 100% !important; box-sizing: border-box !important;">
+          {% csrf_token %}
+          
+          <!-- Display messages from views (success/error) -->
+          {% if messages %}
+            {% for message in messages %}
+              {% if message.tags == 'success' %}
+                <div class="success-container" style="width: 100% !important; max-width: 100% !important; word-wrap: break-word !important; overflow: hidden !important;">
+                  <div class="success-icon">✅</div>
+                  <div class="success-content">{{ message }}</div>
+                </div>
+              {% elif message.tags == 'error' %}
+                <div class="error-container" style="width: 100% !important; max-width: 100% !important; word-wrap: break-word !important; overflow: hidden !important;">
+                  <div class="error-icon">❌</div>
+                  <div class="error-content">{{ message }}</div>
+                </div>
+              {% endif %}
+            {% endfor %}
+          {% else %}
+            <!-- Only show form errors if no messages from views -->
+            {% if form.non_field_errors %}
+              <div class="error-container" style="width: 100% !important; max-width: 100% !important; word-wrap: break-word !important; overflow: hidden !important;">
+                <div class="error-icon">⚠️</div>
+                <div class="error-content">
+                  {% for error in form.non_field_errors %}
+                    <div class="error-message">{{ error }}</div>
+                  {% endfor %}
+                </div>
+              </div>
+            {% endif %}
+          {% endif %}
+
+          <div class="form-group" style="width: 100% !important; max-width: 100% !important; box-sizing: border-box !important;">
+            <label for="{{ form.username.id_for_label }}">Username or Email</label>
+            {{ form.username }}
+            {% if form.username.errors %}
+              <div class="field-error-container">
+                {% for error in form.username.errors %}
+                  <div class="field-error">
+                    <span class="error-icon">❗</span>
+                    <span class="error-text">{{ error }}</span>
+                  </div>
+                {% endfor %}
+              </div>
+            {% endif %}
           </div>
           
-          <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" id="password" placeholder="Enter your password" required>
-            <a href="#forgot" class="forgot-link">Forgot password?</a>
+          <div class="form-group" style="width: 100% !important; max-width: 100% !important; box-sizing: border-box !important;">
+            <label for="{{ form.password.id_for_label }}">Password</label>
+            {{ form.password }}
+            {% if form.password.errors %}
+              <div class="field-error-container">
+                {% for error in form.password.errors %}
+                  <div class="field-error">
+                    <span class="error-icon">❗</span>
+                    <span class="error-text">{{ error }}</span>
+                  </div>
+                {% endfor %}
+              </div>
+            {% endif %}
+            <a href="{% url 'password_reset' %}" class="forgot-link">Forgot password?</a>
           </div>
           
           <button type="submit" class="auth-btn">Login</button>
-          
-          <div class="auth-divider">
-            <span>or</span>
-          </div>
-          
-          <div class="social-login">
-            <a href="{% provider_login_url 'google' %}" class="social-btn google" type="button">
-              <img src="{% static 'Media/google-icon.svg' %}" alt="Google">
-              Continue with Google
-            </a>
-          </div>
           
           <p class="auth-switch">Don't have an account? <a href="{% url 'signup' %}">Sign up</a></p>
         </form>
       </div>
     </div>
   </section>
+
+  <script>
+    // Enhanced form validation and error handling
+    document.addEventListener('DOMContentLoaded', function() {
+      const form = document.querySelector('.login-form');
+      const usernameInput = document.querySelector('#id_username');
+      const passwordInput = document.querySelector('#id_password');
+
+      // Add real-time validation
+      if (usernameInput) {
+        usernameInput.addEventListener('blur', function() {
+          validateField(this, 'Username is required');
+        });
+        
+        usernameInput.addEventListener('input', function() {
+          if (this.value.trim()) {
+            clearFieldError(this);
+          }
+        });
+      }
+
+      if (passwordInput) {
+        passwordInput.addEventListener('blur', function() {
+          validateField(this, 'Password is required');
+        });
+        
+        passwordInput.addEventListener('input', function() {
+          if (this.value.trim()) {
+            clearFieldError(this);
+          }
+        });
+      }
+
+      // Form submission validation
+      if (form) {
+        form.addEventListener('submit', function(e) {
+          let isValid = true;
+          
+          if (usernameInput && !usernameInput.value.trim()) {
+            showFieldError(usernameInput, 'Please enter your username or email');
+            isValid = false;
+          }
+          
+          if (passwordInput && !passwordInput.value.trim()) {
+            showFieldError(passwordInput, 'Please enter your password');
+            isValid = false;
+          }
+          
+          if (!isValid) {
+            e.preventDefault();
+            // Show general error message
+            showGeneralError('Please fill in all required fields');
+          }
+        });
+      }
+
+      // Auto-hide success/error messages after 8 seconds
+      setTimeout(function() {
+        const containers = document.querySelectorAll('.error-container, .success-container');
+        containers.forEach(container => {
+          container.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+          container.style.opacity = '0';
+          container.style.transform = 'translateY(-10px)';
+          setTimeout(() => {
+            if (container.parentNode) {
+              container.parentNode.removeChild(container);
+            }
+          }, 500);
+        });
+      }, 8000);
+    });
+
+    function validateField(input, message) {
+      if (!input.value.trim()) {
+        showFieldError(input, message);
+        input.classList.add('error');
+        return false;
+      } else {
+        clearFieldError(input);
+        input.classList.remove('error');
+        return true;
+      }
+    }
+
+    function showFieldError(input, message) {
+      clearFieldError(input);
+      
+      const errorContainer = document.createElement('div');
+      errorContainer.className = 'field-error-container';
+      
+      const errorDiv = document.createElement('div');
+      errorDiv.className = 'field-error';
+      errorDiv.innerHTML = `
+        <span class="error-icon">❗</span>
+        <span class="error-text">${message}</span>
+      `;
+      
+      errorContainer.appendChild(errorDiv);
+      input.parentNode.appendChild(errorContainer);
+      input.classList.add('error');
+      
+      // Animate in
+      errorDiv.style.opacity = '0';
+      errorDiv.style.transform = 'translateY(-5px)';
+      setTimeout(() => {
+        errorDiv.style.transition = 'all 0.3s ease';
+        errorDiv.style.opacity = '1';
+        errorDiv.style.transform = 'translateY(0)';
+      }, 10);
+    }
+
+    function clearFieldError(input) {
+      const existingError = input.parentNode.querySelector('.field-error-container');
+      if (existingError) {
+        existingError.remove();
+      }
+      input.classList.remove('error');
+    }
+
+    function showGeneralError(message) {
+      // Remove existing general errors to prevent duplicates
+      const existingErrors = document.querySelectorAll('.general-error-container, .error-container');
+      existingErrors.forEach(error => error.remove());
+      
+      const errorContainer = document.createElement('div');
+      errorContainer.className = 'error-container general-error-container';
+      errorContainer.innerHTML = `
+        <div class="error-icon">⚠️</div>
+        <div class="error-content">
+          <div class="error-message">${message}</div>
+        </div>
+      `;
+      
+      const form = document.querySelector('.login-form');
+      form.insertBefore(errorContainer, form.firstChild);
+      
+      // Animate in
+      errorContainer.style.opacity = '0';
+      errorContainer.style.transform = 'translateY(-10px)';
+      setTimeout(() => {
+        errorContainer.style.transition = 'all 0.3s ease';
+        errorContainer.style.opacity = '1';
+        errorContainer.style.transform = 'translateY(0)';
+      }, 10);
+    }
+  </script>
 
   <script src="{% static 'script.js' %}"></script>
 </body>

@@ -22,12 +22,16 @@
 
 
 {% block content %}
- <section class="hero-video">
-    <video id="introVideo" autoplay muted playsinline class="hero-full-video">
-      <source src="{% static 'Media/hero-section-bg.mp4' %}" type="video/mp4" />
-
-    </video>
-
+ <section class="hero-animated-text">
+    <div class="hero-video-background">
+      <video autoplay muted loop playsinline>
+        <source src="{% static 'Media/blue-waves.mp4' %}" type="video/mp4" />
+      </video>
+    </div>
+    <div class="animated-text-container">
+      <h1 class="animated-typing" id="animatedTyping"></h1>
+      <p class="hero-tagline">Learn, Achieve, Elevate. Your Future Starts Here.</p>
+    </div>
   </section>
   <section id="plans" class="plans-section">
 
@@ -216,11 +220,4 @@
     </div>
   </section>
 
-
-
-  <!-- Invite a Friend Button -->
-  <button class="invite-friend-btn" id="inviteFriendBtn">
-    <span>🤝 Invite a Friend</span>
-  </button>
-  <script src="{% static 'js/script.js' %}"></script>
 {% endblock %}

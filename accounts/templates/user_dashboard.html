@@ -2,200 +2,367 @@
 {% load static %}
 
 {% block signup %}{% endblock %}
+{% block user_type %}{% endblock %}
 
-
-  <link rel="stylesheet" href="{% static 'main.css'%}"/>
-
-
-{% block extra_links %}{% endblock %}
-
-{% block user_type %}
-    <div class="user-type">Standard User</div>
-    {% endblock %}
-
-
-    {% block user_avatar %}
-          <div class="user-avatar" id="userAvatar" tabindex="0">F
-            <div class="user-panel" id="userPanel">
-                <div class="user-name">Ali Raza</div>
-                <div class="user-email">ali.raza@email.com</div>
-                <div class="ref-label">Referral Code</div>
-                <div class="ref-row">
-                    <span class="ref-code" id="refCode">AFAA1234</span>
-                    <button class="copy-btn" id="copyRefBtn">Copy</button>
-                </div>
-                <button class="logout-btn" id="logoutBtn">Log Out</button>
-            </div>
-        </div>
-        {% endblock %}
-
+{% block user_avatar %}
+<div class="user-info-container">
+  <div class="avatar" id="user-avatar">{{ request.user.username|slice:":1"|upper }}</div>
+  <div class="user-dropdown" id="user-dropdown-menu">
+    <div class="user-meta">
+      <h2>{{ request.user.get_full_name|default:request.user.username }}</h2>
+      <div class="username">(@{{ request.user.username }})</div>
+      <div>{{ request.user.email }}</div>
+      {% if site_settings %}
+      <div class="small">Contact: {{ site_settings.phone }} • {{ site_settings.email }}</div>
+      {% endif %}
+    </div>
+    <div class="referral">
+      <div>Your Referral Code</div>
+      <div class="code">{{ request.user.userprofile.referral_code|default:request.user.username }}</div>
+      <div class="small">Share this code with friends</div>
+    </div>
+    {% if request.user.userprofile.mobile %}
+    <div class="user-details">
+      <div class="small">Mobile: {{ request.user.userprofile.mobile }}</div>
+    </div>
+    {% endif %}
+    {% if request.user.userprofile.dob %}
+    <div class="user-details">
+      <div class="small">DOB: {{ request.user.userprofile.dob }}</div>
+    </div>
+    {% endif %}
+    <div class="logout">
+      <form method="post" action="{% url 'logout' %}" style="display: inline;">
+        {% csrf_token %}
+        <button type="submit" class="logout-btn" id="logoutBtn">Logout</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
 
 {% block content %}
-   <body class="user-dashboard">
+<div class="user-dashboard">
+  <section>
+    <div class="plan-status">
+      <h2>My Plan Status</h2>
+      <div class="current-plan">
+        {% if request.user.userprofile.plan == 'NONE' %}
+          <span class="plan-badge plan-none">No Plan Assigned</span>
+          <p>Contact admin to get a plan assigned</p>
+        {% else %}
+          <span class="plan-badge plan-{{ request.user.userprofile.plan|lower }}">{{ request.user.userprofile.plan }} Plan</span>
+          <p>You have access to {{ request.user.userprofile.plan }} level courses</p>
+        {% endif %}
+      </div>
+    </div>
+  </section>
 
+
+  <!-- Referrals Section - Before Courses -->
+  <section>
+    <div class="referrals-section">
+      <h3>My Referrals Overview</h3>
+      
+      <!-- Total Referrals & Earnings Summary -->
+      <div class="referral-summary" style="display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; margin-bottom: 30px;">
+        <div class="total-referrals-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 25px; border-radius: 12px; box-shadow: 0 8px 25px rgba(102, 126, 234, 0.25); flex: 1; min-width: 250px; max-width: 350px; text-align: center;">
+          <h4 style="margin: 0 0 15px 0; font-size: 1.3rem; font-weight: 600; opacity: 0.9;">Total Direct Referrals</h4>
+          <span class="total-count" style="font-size: 2.2rem; font-weight: 800; display: block; line-height: 1.1;">{{ total_direct }}</span>
+        </div>
+        
+        <div class="total-earnings-card" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 25px; border-radius: 12px; box-shadow: 0 8px 25px rgba(16, 185, 129, 0.25); flex: 1; min-width: 250px; max-width: 350px; text-align: center;">
+          <h4 style="margin: 0 0 15px 0; font-size: 1.3rem; font-weight: 600; opacity: 0.9;">Total Commission Earnings</h4>
+          <span class="total-amount" style="font-size: 2.2rem; font-weight: 800; display: block; line-height: 1.1;">Rs.{{ total_commission|floatformat:0 }}</span>
+        </div>
+      </div>
+      
+      <!-- Plan-wise Referral Breakdown -->
+      <div class="plan-referrals-breakdown">
+        <h4>Referrals by Plan</h4>
+        <div class="plan-cards-container">
+          
+          <!-- Pro Plan Referrals -->
+          <div class="plan-referral-card pro-plan">
+            <div class="plan-header">
+              <h5>PRO Plan</h5>
+              <span class="plan-count">{{ plan_totals.PRO|default:0 }}</span>
+            </div>
+          </div>
+          
+          <!-- Advance Plan Referrals -->
+          <div class="plan-referral-card advance-plan">
+            <div class="plan-header">
+              <h5>ADVANCE Plan</h5>
+              <span class="plan-count">{{ plan_totals.ADVANCE|default:0 }}</span>
+            </div>
+          </div>
+          
+          <!-- Standard Plan Referrals -->
+          <div class="plan-referral-card standard-plan">
+            <div class="plan-header">
+              <h5>STANDARD Plan</h5>
+              <span class="plan-count">{{ plan_totals.STANDARD|default:0 }}</span>
+            </div>
+          </div>
+          
+          <!-- Basic Plan Referrals -->
+          <div class="plan-referral-card basic-plan">
+            <div class="plan-header">
+              <h5>BASIC Plan</h5>
+              <span class="plan-count">{{ plan_totals.BASIC|default:0 }}</span>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team Rewards Section -->
+  <section class="rewards-section">
+    <div class="rewards-container">
+      <h3>🏆 Team Reward Progress</h3>
+      <p class="rewards-subtitle">Complete referral milestones to unlock amazing rewards!</p>
+      
+      <!-- Reward Instructions -->
+      {% comment %} <div class="reward-instructions">
+        <h4>📋 Clear Instructions:</h4>
+        <ul>
+          <li><strong>Basic/Standard Plan referrals</strong> pe koi condition nahi</li>
+          <li><strong>100+ referrals</strong> ke liye Advance/Pro referrals zaroori</li>
+          <li><strong>Jitne zyada premium referrals,</strong> utna asaan reward milna</li>
+        </ul>
+      </div> {% endcomment %}
+
+      <!-- Rewards Grid -->
+      <div class="rewards-grid">
+        {% for progress in reward_progress %}
+        <div class="reward-card {% if progress.is_eligible %}eligible{% endif %} {% if progress.is_achieved %}achieved{% endif %}">
+          
+          <!-- Reward Header -->
+          <div class="reward-header">
+            <div class="reward-icon">
+              {% if progress.reward.referrals_required <= 50 %}🎁
+              {% elif progress.reward.referrals_required <= 100 %}🎯
+              {% elif progress.reward.referrals_required <= 300 %}📱
+              {% elif progress.reward.referrals_required <= 500 %}🏍️
+              {% else %}🕋
+              {% endif %}
+            </div>
+            <h4>{{ progress.reward.reward_name }}</h4>
+            <div class="reward-amount">Rs. {{ progress.reward.reward_amount|floatformat:0 }}</div>
+          </div>
+
+          <!-- Progress Bars -->
+          <div class="progress-section">
+            
+            <!-- Total Referrals Progress -->
+            <div class="progress-item">
+              <div class="progress-label">
+                <span>Total Referrals</span>
+                <span class="progress-count">{{ total_direct }}/{{ progress.reward.referrals_required }}</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: {{ progress.total_referrals_progress }}%"></div>
+              </div>
+              <div class="progress-percentage">{{ progress.total_referrals_progress|floatformat:0 }}%</div>
+            </div>
+
+            <!-- Advance Plan Progress (if required) -->
+            {% if progress.reward.advance_referrals_required > 0 %}
+            <div class="progress-item advance-progress">
+              <div class="progress-label">
+                <span>Advance Plan</span>
+                <span class="progress-count">{{ plan_totals.ADVANCE|default:0 }}/{{ progress.reward.advance_referrals_required }}</span>
+              </div>
+              <div class="progress-bar advance-bar">
+                <div class="progress-fill" style="width: {{ progress.advance_progress }}%"></div>
+              </div>
+              <div class="progress-percentage">{{ progress.advance_progress|floatformat:0 }}%</div>
+            </div>
+            {% endif %}
+
+            <!-- Pro Plan Progress (if required) -->
+            {% if progress.reward.pro_referrals_required > 0 %}
+            <div class="progress-item pro-progress">
+              <div class="progress-label">
+                <span>Pro Plan</span>
+                <span class="progress-count">{{ plan_totals.PRO|default:0 }}/{{ progress.reward.pro_referrals_required }}</span>
+              </div>
+              <div class="progress-bar pro-bar">
+                <div class="progress-fill" style="width: {{ progress.pro_progress }}%"></div>
+              </div>
+              <div class="progress-percentage">{{ progress.pro_progress|floatformat:0 }}%</div>
+            </div>
+            {% endif %}
+
+          </div>
+
+          <!-- Conditions -->
+          <div class="reward-conditions">
+            {% if progress.reward.condition_text %}
+              <div class="condition-text">{{ progress.reward.condition_text }}</div>
+            {% else %}
+              <div class="condition-text no-conditions">No Condition</div>
+            {% endif %}
+          </div>
+
+          <!-- Status Badge -->
+          <div class="reward-status">
+            {% if progress.is_achieved %}
+              <span class="status-badge achieved">✅ Achieved!</span>
+            {% elif progress.is_eligible %}
+              <span class="status-badge eligible">🎉 Eligible!</span>
+            {% else %}
+              <span class="status-badge pending">⏳ In Progress</span>
+            {% endif %}
+          </div>
+
+          <!-- What's Needed -->
+          {% if not progress.is_eligible and not progress.is_achieved %}
+          <div class="whats-needed">
+            <h5>What's needed:</h5>
+            {% if progress.referrals_needed > 0 %}
+              <div class="need-item">+{{ progress.referrals_needed }} more referrals</div>
+            {% endif %}
+            {% if progress.advance_needed > 0 %}
+              <div class="need-item">+{{ progress.advance_needed }} Advance plan referrals</div>
+            {% endif %}
+            {% if progress.pro_needed > 0 %}
+              <div class="need-item">+{{ progress.pro_needed }} Pro plan referrals</div>
+            {% endif %}
+          </div>
+          {% endif %}
+
+        </div>
+        {% empty %}
+        <div class="no-rewards">
+          <p>No rewards configured yet. Check back soon!</p>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <section>
     <div class="plan-title">My Courses</div>
     <div class="courses-row">
-        <div class="course-box">
-            <div class="thumbnail"> <img src="/media/courses_thumbnails/python.jpg" alt=""></div>
-            <h3 class="course-title">Complete Python Bootcamp</h3>
-            <p class="course-description">
-                Master Python programming from zero to hero. This course covers everything from basic syntax to advanced
-                concepts like OOP, file handling, and libraries like Pandas, NumPy, and more. Perfect for beginners and
-                experienced coders alike who want to solidify their Python skills for real-world applications and
-                projects.
-            </p>
-            <button class="see-more-btn">See More</button>
-            <button class="start-learning-btn">Start Learning</button>
-        </div>
+        {% if my_courses.exists %}
+            <div class="courses-container">
+                {% for course in my_courses %}
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-image-container">
+                            <!-- Course Image -->
+                            {% if course.thumbnail %}
+                                <img src="{{ course.thumbnail.url }}" class="card-img-top" alt="{{ course.title }}">
+                            {% else %}
+                                <div class="card-img-top card-img-placeholder">
+                                    <!-- Empty placeholder -->
+                                </div>
+                            {% endif %}
+                            
+                            <!-- Plan Badge -->
+                            <div class="card-badge-container">
+                                {% if course.plan %}
+                                    <span class="card-badge badge-{{ course.plan.name|lower }}">{{ course.plan.name }}</span>
+                                {% else %}
+                                    <span class="card-badge badge-free">FREE</span>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <div class="card-content">
+                                <h5 class="card-title">{{ course.title }}</h5>
+                                
+                                <div class="card-description">
+                                    <p class="card-text" id="desc-{{ forloop.counter }}" data-full="{{ course.description|default_if_none:'No description available.' }}" data-expanded="false">
+                                        {{ course.description|default_if_none:"No description available."|truncatechars:100 }}
+                                    </p>
+                                    
+                                    {% if course.description|length > 100 %}
+                                        <button class="see-more-btn" onclick="toggleText({{ forloop.counter }})">
+                                            See More
+                                        </button>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="card-action">
+                                {% if course.course_link %}
+                                    <a href="{{ course.course_link }}" target="_blank" class="course-btn course-btn-primary">
+                                        <i class="fas fa-play-circle"></i> Start Learning
+                                    </a>
+                                {% else %}
+                                    <button class="course-btn course-btn-secondary" disabled>
+                                        <i class="fas fa-clock"></i> Coming Soon
+                                    </button>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="no-courses">
+              {% if request.user.userprofile.plan == 'NONE' %}
+                <h3>No Plan Assigned</h3>
+                <p>Contact your admin to get a plan assigned and unlock courses.</p>
+              {% else %}
+                <h3>No Courses Available</h3>
+                <p>No courses are currently available for your {{ request.user.userprofile.plan }} plan.</p>
+              {% endif %}
+            </div>
+        {% endif %}
     </div>
-    </div>
+  </section>
 
+</div>
 
+<script>
+function toggleDescription(button) {
+    const wrapper = button.parentElement;
+    const description = wrapper.querySelector('.course-description');
+    const fullText = description.getAttribute('data-full-text');
+    const isExpanded = button.textContent === 'See Less';
+    
+    if (isExpanded) {
+        // Collapse
+        description.textContent = fullText.length > 100 ? fullText.substring(0, 97) + '...' : fullText;
+        button.textContent = 'See More';
+        button.classList.remove('expanded');
+    } else {
+        // Expand
+        description.textContent = fullText;
+        button.textContent = 'See Less';
+        button.classList.add('expanded');
+    }
+}
 
-    <section class="container mt-40 mb-40 bg-white br-20 shadow-lg p-40-20">
-        <div class="plans-heading mb-40">
-            <h2 class="color-primary">🏆 Team Reward Dashboard</h2>
-            <p class="subheading color-secondary">Track your progress and unlock amazing rewards</p>
-        </div>
-        <div class="plans-row mb-40">
-            <div class="plan-card bg-light color-primary">
-                <h3 class="color-primary">Basic Plans Sold</h3>
-                <div class="stat-number">20</div>
-            </div>
-            <div class="plan-card bg-light color-primary">
-                <h3 class="color-primary">Standard Plans Sold</h3>
-                <div class="stat-number">25</div>
-            </div>
-            <div class="plan-card bg-light color-primary">
-                <h3 class="color-primary">Advance Plans Sold</h3>
-                <div class="stat-number">8</div>
-            </div>
-            <div class="plan-card bg-light color-primary">
-                <h3 class="color-primary">Pro Plans Sold</h3>
-                <div class="stat-number">3</div>
-            </div>
+// WhatsApp Invite Function
+function inviteFriendWhatsApp() {
+    const referralCode = '{{ request.user.userprofile.referral_code|default:request.user.username }}';
+    let websiteUrl = window.location.origin;
+    
+    // Ensure URL starts with http:// or https://
+    if (!websiteUrl.startsWith('http://') && !websiteUrl.startsWith('https://')) {
+        websiteUrl = 'http://' + websiteUrl;
+    }
+    
+    // Clean message without emojis for better compatibility
+    const message = `Join AFAA Elevate and unlock amazing learning opportunities!
 
-        </div>
-        <div class="plans-row mb-40">
-            <div style="width: auto!important; min-width: 260px;" class="plan-card bg-light color-primary">
-                <h3 class="color-primary">Total Referrals</h3>
-                <div class="stat-number">150</div>
-            </div>
+Use my referral code: ${referralCode}
 
-            <div style="width: auto!important; min-width: 260px;" class="plan-card bg-light color-primary">
-                <h3 class="color-primary">Total Rewards Earned</h3>
-                <div class="stat-number">Rs 11,500</div>
-            </div>
-        </div>
-        <div class="plans-heading mb-30">
-            <h2 class="color-primary">🎁 Reward Progress</h2>
-        </div>
-        <div class="testimonial-container testimonial-gap">
-            <!-- Reward 1: Earned -->
-            <div class="testimonial-box testimonial-box-earned">
-                <h3 class="color-primary">Watch <span class="reward-status reward-earned">Earned</span></h3>
-                <div class="referral-row">
-                    <div class="reward-amount reward-earned">Rs 1,500</div>
-                    <div class="referral-count">7/10</div>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill-earned"></div>
-                </div>
-                <div class="color-secondary">Referrals: 7/10 (70%)</div>
-            </div>
-            <!-- Reward 2: Earned -->
-            <div class="testimonial-box testimonial-box-earned">
-                <h3 class="color-primary">Perfume+Wallet <span class="reward-status reward-earned">Earned</span></h3>
-                <div class="referral-row">
-                    <div class="reward-amount reward-earned">Rs 3,000</div>
-                    <div class="referral-count">17/20</div>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill-earned"></div>
-                </div>
-                <div class="color-secondary">Referrals: 18/20 (90%)</div>
-            </div>
+Visit: ${websiteUrl}
 
-            <!-- Reward 3: Earned -->
-            <div class="testimonial-box testimonial-box-earned">
-                <h3 class="color-primary">Powerbank <span class="reward-status reward-earned">Earned</span></h3>
-                <div class="referral-row">
-                    <div class="reward-amount reward-earned">Rs 7,000</div>
-                    <div class="referral-count">34/50</div>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill-earned"></div>
-                </div>
-                <div class="color-secondary">Referrals: 10/50 (100%)</div>
-            </div>
-            <!-- Reward 4: Conditions Pending -->
-            <div class="testimonial-box testimonial-box-conditions">
-                <h3 class="color-primary">Tour Package <span class="reward-status reward-conditions">Conditions
-                        Pending</span></h3>
-                <div class="referral-row">
-                    <div class="reward-amount reward-conditions">Rs 15,000</div>
-                    <div class="referral-count">70/100</div>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill-conditions"></div>
-                </div>
-                <div class="reward-conditions-row">
-                    <span class="reward-conditions-advance">Advance Plans: 8/5 ✓</span> &nbsp; <span
-                        class="reward-conditions-pro">Pro Plans: 3/5 ✗</span>
-                </div>
-            </div>
-            <!-- Reward 5: In Progress -->
-            <div class="testimonial-box testimonial-box-inprogress">
-                <h3 class="color-primary">Mobile <span class="reward-status reward-inprogress">In Progress</span></h3>
-                <div class="referral-row">
-                    <div class="reward-amount reward-inprogress">Rs 50,000</div>
-                    <div class="referral-count">150/300</div>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill-inprogress-50"></div>
-                </div>
-                <div class="reward-conditions-row">
-                    <span class="reward-conditions-pro">Advance Plans: 8/20 ✗</span> &nbsp; <span
-                        class="reward-conditions-pro">Pro Plans: 3/20 ✗</span>
-                </div>
-            </div>
-            <!-- Reward 6: In Progress -->
-            <div class="testimonial-box testimonial-box-inprogress">
-                <h3 class="color-primary">Bike <span class="reward-status reward-inprogress">In Progress</span></h3>
-                <div class="referral-row">
-                    <div class="reward-amount reward-inprogress">Rs 90,000</div>
-                    <div class="referral-count">150/500</div>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill-inprogress-30"></div>
-                </div>
-                <div class="reward-conditions-row">
-                    <span class="reward-conditions-pro">Advance Plans: 8/30 ✗</span> &nbsp; <span
-                        class="reward-conditions-pro">Pro Plans: 3/30 ✗</span>
-                </div>
-            </div>
-            <!-- Reward 7: In Progress -->
-            <div class="testimonial-box testimonial-box-inprogress">
-                <h3 class="color-primary">Umrah Package <span class="reward-status reward-inprogress">In Progress</span>
-                </h3>
-                <div class="referral-row">
-                    <div class="reward-amount reward-inprogress">Rs 2,20,000</div>
-                    <div class="referral-count">150/1000</div>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill-inprogress-15"></div>
-                </div>
-                <div class="reward-conditions-row">
-                    <span class="reward-conditions-pro">Advance Plans: 8/70 ✗</span> &nbsp; <span
-                        class="reward-conditions-pro">Pro Plans: 3/70 ✗</span>
-                </div>
-            </div>
-        </div>
-    </section>
+Let's grow together and achieve success!`;
+    
+    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+}
+</script>
 
-    <!-- Invite a Friend Button -->
-    <button class="invite-friend-btn" id="inviteFriendBtn">
-      <span>🤝 Invite a Friend</span>
-    </button>
-</body>
 {% endblock %}

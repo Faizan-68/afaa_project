@@ -7,12 +7,10 @@
 {% endblock %}
 
 {% block user_type %}
-    {% endblock %}
+{% endblock %}
 
-
-    {% block user_avatar %}
-        {% endblock %}
-
+{% block user_avatar %}
+{% endblock %}
 
 {% block content %}
 <section class="courses-hero">
@@ -22,132 +20,69 @@
   </div>
 </section>
 
-<section class="courses-section">
-  <div class="container">
-    <!-- Basic Plan -->
-    <div class="plan-courses-block">
-      <div class="plan-title">Basic Plan Courses</div>
-      <div class="courses-row">
-        <div class="course-box">
-          <div class="thumbnail"></div>
-          <h3 class="course-title">Complete Python Bootcamp</h3>
-          <p class="course-description">
-            Master Python programming from zero to hero. This course covers everything from basic syntax to advanced
-            concepts like OOP, file handling, and libraries like Pandas, NumPy, and more. Perfect for beginners and
-            experienced coders alike who want to solidify their Python skills for real-world applications and projects.
-          </p>
-          <button class="see-more-btn">See More</button>
-          <a class="start-learning-btn" href="{% url 'dashboard' %}">Start Learning</a>
-        </div>
-        <div class="course-box">
-          <div class="thumbnail"></div>
-          <h3 class="course-title">Complete Python Bootcamp</h3>
-          <p class="course-description">
-            Master Python programming from zero to hero. This course covers everything from basic syntax to advanced
-            concepts like OOP, file handling, and libraries like Pandas, NumPy, and more. Perfect for beginners and
-            experienced coders alike who want to solidify their Python skills for real-world applications and projects.
-          </p>
-          <button class="see-more-btn">See More</button>
-          <a class="start-learning-btn" href="{% url 'dashboard' %}">Start Learning</a>
-        </div>
-        
-        <div class="course-box">
-          <div class="thumbnail"></div>
-          <h3 class="course-title">Complete Python Bootcamp</h3>
-          <p class="course-description">
-            Master Python programming from zero to hero. This course covers everything from basic syntax to advanced
-            concepts like OOP, file handling, and libraries like Pandas, NumPy, and more. Perfect for beginners and
-            experienced coders alike who want to solidify their Python skills for real-world applications and projects.
-          </p>
-          <button class="see-more-btn">See More</button>
-          <a class="start-learning-btn" href="{% url 'dashboard' %}">Start Learning</a>
-        </div>
-      </div>
-    </div>
+<div class="user-dashboard">
+  <section>
+    <div class="plan-title">All Available Courses</div>
+    <div class="courses-row">
+        {% if courses.exists %}
+            <div class="courses-container">
+                {% for course in courses %}
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-image-container">
+                            <!-- Course Image -->
+                            {% if course.thumbnail %}
+                                <img src="{{ course.thumbnail.url }}" class="card-img-top" alt="{{ course.title }}">
+                            {% else %}
+                                <div class="card-img-top card-img-placeholder">
+                                    <!-- Empty placeholder -->
+                                </div>
+                            {% endif %}
+                            
+                            <!-- Plan Badge -->
+                            <div class="card-badge-container">
+                                {% if course.plan %}
+                                    <span class="card-badge badge-{{ course.plan.name|lower }}">{{ course.plan.name }}</span>
+                                {% else %}
+                                    <span class="card-badge badge-free">FREE</span>
+                                {% endif %}
+                            </div>
+                        </div>
 
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <div class="card-content">
+                                <div class="card-description">
+                                    <h5 class="card-title">{{ course.title }}</h5>
+                                    <p class="card-text" id="desc-{{ course.id }}" data-full="{{ course.description }}" data-expanded="false">
+                                        {% if course.description|length > 100 %}
+                                            {{ course.description|slice:":100" }}...
+                                        {% else %}
+                                            {{ course.description }}
+                                        {% endif %}
+                                    </p>
+                                    {% if course.description|length > 100 %}
+                                        <button class="see-more-btn" onclick="toggleText({{ course.id }})">See More</button>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <div class="card-action">
+                                <a href="{% url 'dashboard' %}" class="course-btn start-learning-btn">Start Learning</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="no-courses">
+                <h3>No courses available at the moment</h3>
+                <p>Please check back later for new courses.</p>
+            </div>
+        {% endif %}
+    </div>
+  </section>
+</div>
 
-    <!-- Advance Plan -->
-    <div class="plan-courses-block">
-      <div class="plan-title">Advance Plan Courses</div>
-      <div class="courses-row">
-        <div class="course-box">
-          <div class="thumbnail"></div>
-          <h3 class="course-title">Complete Python Bootcamp</h3>
-          <p class="course-description">
-            Master Python programming from zero to hero. This course covers everything from basic syntax to advanced
-            concepts like OOP, file handling, and libraries like Pandas, NumPy, and more. Perfect for beginners and
-            experienced coders alike who want to solidify their Python skills for real-world applications and projects.
-          </p>
-          <button class="see-more-btn">See More</button>
-          <a class="start-learning-btn" href="{% url 'dashboard' %}">Start Learning</a>
-        </div>
-        <div class="course-box">
-          <div class="thumbnail"></div>
-          <h3 class="course-title">Complete Python Bootcamp</h3>
-          <p class="course-description">
-            Master Python programming from zero to hero. This course covers everything from basic syntax to advanced
-            concepts like OOP, file handling, and libraries like Pandas, NumPy, and more. Perfect for beginners and
-            experienced coders alike who want to solidify their Python skills for real-world applications and projects.
-          </p>
-          <button class="see-more-btn">See More</button>
-          <a class="start-learning-btn" href="{% url 'dashboard' %}">Start Learning</a>
-        </div>
-        <div class="course-box">
-          <div class="thumbnail"></div>
-          <h3 class="course-title">Complete Python Bootcamp</h3>
-          <p class="course-description">
-            Master Python programming from zero to hero. This course covers everything from basic syntax to advanced
-            concepts like OOP, file handling, and libraries like Pandas, NumPy, and more. Perfect for beginners and
-            experienced coders alike who want to solidify their Python skills for real-world applications and projects.
-          </p>
-          <button class="see-more-btn">See More</button>
-          <a class="start-learning-btn" href="{% url 'dashboard' %}">Start Learning</a>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Pro Plan -->
-    <div class="plan-courses-block">
-      <div class="plan-title">Pro Plan Courses</div>
-      <div class="courses-row">
-        <div class="course-box">
-          <div class="thumbnail"></div>
-          <h3 class="course-title">Complete Python Bootcamp</h3>
-          <p class="course-description">
-            Master Python programming from zero to hero. This course covers everything from basic syntax to advanced
-            concepts like OOP, file handling, and libraries like Pandas, NumPy, and more. Perfect for beginners and
-            experienced coders alike who want to solidify their Python skills for real-world applications and projects.
-          </p>
-          <button class="see-more-btn">See More</button>
-          <a class="start-learning-btn" href="{% url 'dashboard' %}">Start Learning</a>
-        </div>
-        <div class="course-box">
-          <div class="thumbnail"></div>
-          <h3 class="course-title">Complete Python Bootcamp</h3>
-          <p class="course-description">
-            Master Python programming from zero to hero. This course covers everything from basic syntax to advanced
-            concepts like OOP, file handling, and libraries like Pandas, NumPy, and more. Perfect for beginners and
-            experienced coders alike who want to solidify their Python skills for real-world applications and projects.
-          </p>
-          <button class="see-more-btn">See More</button>
-          <a class="start-learning-btn" href="{% url 'dashboard' %}">Start Learning</a>
-        </div>
-        <div class="course-box">
-          <div class="thumbnail"></div>
-          <h3 class="course-title">Complete Python Bootcamp</h3>
-          <p class="course-description">
-            Master Python programming from zero to hero. This course covers everything from basic syntax to advanced
-            concepts like OOP, file handling, and libraries like Pandas, NumPy, and more. Perfect for beginners and
-            experienced coders alike who want to solidify their Python skills for real-world applications and projects.
-          </p>
-          <button class="see-more-btn">See More</button>
-          <a class="start-learning-btn" href="{% url 'dashboard' %}">Start Learning</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
- <script src="{% static 'js/script.js' %}"></script>
 {% endblock %}
 
 {% block extra_scripts %}{% endblock %}

@@ -51,13 +51,7 @@ if (window.scriptLoaded) {
       });
     }
     
-    // Logout button logic
-    const logoutBtn = document.getElementById("logoutBtn");
-    if (logoutBtn) {
-      logoutBtn.onclick = function () {
-        window.location.href = "login.html";
-      };
-    }
+    // Logout functionality is now handled by form submission in template
     
     // Invite friend button logic
     const inviteFriendBtn = document.getElementById("inviteFriendBtn");

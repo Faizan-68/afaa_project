@@ -6,6 +6,7 @@
 {% block extra_links %}
 {% endblock %}
 
+
 {% block user_type %}
     {% endblock %}
 
@@ -64,16 +65,16 @@
             </div>
           </div>
 
-          <div class="instruction-step">
+            <div class="instruction-step">
             <div class="step-number">3</div>
             <div class="step-content">
               <h3>Send Screenshot</h3>
               <p>Share the Screenshot on the Official WhatsApp Number Provided below.</p>
-              <div class="whatsapp-contact">03260143441</div>
+              <a href="https://wa.me/923260143441" target="_blank" class="whatsapp-contact">
+                03260143441
+              </a>
             </div>
-          </div>
-
-          <div class="instruction-step">
+          </div>          <div class="instruction-step">
             <div class="step-number">4</div>
             <div class="step-content">
               <h3>Confirmation & Activation</h3>
@@ -103,7 +104,9 @@
             <!-- Easypaisa -->
             <div class="payment-method-card">
               <div class="payment-method-header">
-                <div class="payment-logo-placeholder" style="background: #43a047;">EP</div>
+                <div class="payment-logo">
+                  <img src="{% static 'Media/payment-logos/easypaisa.png' %}" alt="Easypaisa">
+                </div>
                 <h3>Easypaisa</h3>
               </div>
               <div class="payment-details">
@@ -115,7 +118,9 @@
             <!-- JazzCash -->
             <div class="payment-method-card">
               <div class="payment-method-header">
-                <div class="payment-logo-placeholder" style="background: #e53935;">JC</div>
+                <div class="payment-logo">
+                  <img src="{% static 'Media/payment-logos/jazzcash.png' %}" alt="JazzCash">
+                </div>
                 <h3>JazzCash</h3>
               </div>
               <div class="payment-details">
@@ -127,7 +132,9 @@
             <!-- NayaPay -->
             <div class="payment-method-card">
               <div class="payment-method-header">
-                <div class="payment-logo-placeholder" style="background: #1e88e5;">NP</div>
+                <div class="payment-logo">
+                  <img src="{% static 'Media/payment-logos/nayapay.png' %}" alt="NayaPay">
+                </div>
                 <h3>NayaPay</h3>
               </div>
               <div class="payment-details">
@@ -139,7 +146,9 @@
             <!-- UBL Bank -->
             <div class="payment-method-card">
               <div class="payment-method-header">
-                <div class="payment-logo-placeholder" style="background: #0d47a1;">UBL</div>
+                <div class="payment-logo">
+                  <img src="{% static 'Media/payment-logos/ubl.png' %}" alt="UBL Bank">
+                </div>
                 <h3>UBL Bank</h3>
               </div>
               <div class="payment-details">
@@ -152,7 +161,9 @@
             <!-- Allied Bank -->
             <div class="payment-method-card">
               <div class="payment-method-header">
-                <div class="payment-logo-placeholder" style="background: #1565c0;">ABL</div>
+                <div class="payment-logo">
+                  <img src="{% static 'Media/payment-logos/allied.png' %}" alt="Allied Bank">
+                </div>
                 <h3>Allied Bank</h3>
               </div>
               <div class="payment-details">
@@ -165,7 +176,9 @@
             <!-- Binance -->
             <div class="payment-method-card">
               <div class="payment-method-header">
-                <div class="payment-logo-placeholder" style="background: #f57c00;">BNB</div>
+                <div class="payment-logo">
+                  <img src="{% static 'Media/payment-logos/binance.png' %}" alt="Binance">
+                </div>
                 <h3>Binance</h3>
               </div>
               <div class="payment-details">
@@ -178,5 +191,4 @@
       </div>
     </div>
   </div>
-  <script src="{% static 'js/script.js' %}"></script>
 {% endblock %}
