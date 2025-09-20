@@ -47,9 +47,51 @@
 /* Mobile specific fixes */
 @media (max-width: 480px) {
   .login-container {
-    width: calc(100vw - 40px) !important;
-    max-width: 380px !important;
+    width: calc(100vw - 20px) !important;
+    max-width: calc(100vw - 20px) !important;
     min-width: 280px !important;
+    margin: 20px 10px !important;
+    padding: 15px !important;
+  }
+  
+  .login-card {
+    padding: 20px 15px !important;
+  }
+  
+  .login-form input[type="text"],
+  .login-form input[type="password"],
+  .login-form input[type="email"] {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    font-size: 16px !important; /* Prevent iOS zoom */
+  }
+  
+  .login-btn {
+    width: 100% !important;
+    padding: 12px !important;
+    font-size: 16px !important;
+  }
+}
+
+/* Extra small screens (320px and below) */
+@media (max-width: 320px) {
+  .login-container {
+    width: calc(100vw - 10px) !important;
+    max-width: calc(100vw - 10px) !important;
+    margin: 10px 5px !important;
+    padding: 10px !important;
+  }
+  
+  .login-card {
+    padding: 15px 10px !important;
+  }
+  
+  .login-card h2 {
+    font-size: 1.8rem !important;
+  }
+  
+  .login-subtext {
+    font-size: 0.9rem !important;
   }
   
   .login-card {
