@@ -12,9 +12,7 @@
       <h2>{{ request.user.get_full_name|default:request.user.username }}</h2>
       <div class="username">(@{{ request.user.username }})</div>
       <div>{{ request.user.email }}</div>
-      {% if site_settings %}
-      <div class="small">Contact: {{ site_settings.phone }} • {{ site_settings.email }}</div>
-      {% endif %}
+
     </div>
     <div class="referral">
       <div>Your Referral Code</div>

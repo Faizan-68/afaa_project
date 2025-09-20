@@ -4,9 +4,11 @@
 <link rel="stylesheet" href="{% static 'main.css'%}" />
 
 {% block signup %}
-      <div class="login-signup">
-             <a href="{% url 'login' %}" class="login-btn-liquid">Login/Signup</a>
-      </div>
+    {% if not user.is_authenticated %}
+        <div class="login-signup">
+            <a href="{% url 'login'%}" class="login-btn-liquid">Login/Signup</a>
+        </div>
+    {% endif %}
     {% endblock %}
 
     {% block extra_links %}
@@ -15,10 +17,12 @@
     {% endblock %}
 
     {% block user_type %}
+    <!-- User type handled by base template for authenticated users -->
     {% endblock %}
 
     {% block user_avatar %}
-        {% endblock %}
+    <!-- Homepage: No user avatar/login elements shown -->
+    {% endblock %}
 
 
 {% block content %}

@@ -1,28 +1,47 @@
+# Core Django Framework
+Django>=5.2.0,<6.0
 asgiref==3.9.1
-certifi==2025.7.14
-cffi==1.17.1
-charset-normalizer==3.4.2
-crispy-bootstrap5
-cryptography==45.0.5
-distlib==0.4.0
-Django>=5.0,<6.0
-django-allauth>=0.65.0
-django-crispy-forms>=2.0
-django-jet==1.0.8
-django-use-email-as-username==1.4.0
-dotenv==0.9.9
-filelock==3.18.0
-idna==3.10
-jet==1.0
-mysql-connector==2.2.9
-mysqlclient==2.2.7
-pillow
-platformdirs==4.3.8
-pycparser==2.22
-PyJWT>=2.8.0
-python-dotenv
-requests==2.32.4
 sqlparse==0.5.3
 tzdata==2025.2
+
+# Database Support
+psycopg2-binary>=2.9.0  # PostgreSQL (production)
+mysqlclient==2.2.7      # MySQL (alternative)
+
+# Environment & Configuration
+python-dotenv>=1.0.0
+certifi==2025.7.14
+
+# Authentication & Security  
+django-allauth>=0.65.0
+PyJWT>=2.8.0
+cryptography==45.0.5
+cffi==1.17.1
+
+# UI & Forms
+django-crispy-forms>=2.0
+crispy-bootstrap5
+pillow>=10.0.0
+
+# Admin Interface
+django-jazzmin>=3.0.0
+
+# HTTP & Network
+requests==2.32.4
 urllib3==2.5.0
-virtualenv==20.32.0
+charset-normalizer==3.4.2
+idna==3.10
+
+# Production Server
+gunicorn>=22.0.0
+whitenoise>=6.0.0
+
+# Caching & Performance
+redis>=5.0.0
+django-redis>=5.4.0
+
+# Monitoring & Logging
+sentry-sdk[django]>=2.0.0
+
+# Development Tools (remove in production)
+# django-debug-toolbar==4.4.6

@@ -4,6 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="csrf-token" content="{{ csrf_token }}" />
     <title>Afaa Elevate Digital Academy</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -46,35 +47,45 @@
         </div>
       </nav>
 
-      {% block signup %}
-      <div class="login-signup">
-        <a href="{% url 'login'%}" class="login-btn-liquid">Login/Signup</a>
-      </div>
-      {% endblock %} {% block user_type %}
-      <div class="user-type">Standard User</div>
-      {% endblock %}
+      {% if user.is_authenticated %}
+        {% block user_type %}
+        <div class="user-type">Standard User</div>
+        {% endblock %}
 
-      <div class="menu-toggle" id="menuToggle">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-
-      {% block user_avatar %}
-      <div class="user-avatar" id="userAvatar" tabindex="0">
-        F
-        <div class="user-panel" id="userPanel">
-          <div class="user-name">Ali Raza</div>
-          <div class="user-email">ali.raza@email.com</div>
-          <div class="ref-label">Referral Code</div>
-          <div class="ref-row">
-            <span class="ref-code" id="refCode">AFAA1234</span>
-            <button class="copy-btn" id="copyRefBtn">Copy</button>
-          </div>
-          <button class="logout-btn" id="logoutBtn">Log Out</button>
+        <div class="menu-toggle" id="menuToggle">
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
-      </div>
-      {% endblock %}
+
+        {% block user_avatar %}
+        <div class="user-avatar" id="userAvatar" tabindex="0">
+          {{ user.first_name|first|upper|default:"U" }}
+          <div class="user-panel" id="userPanel">
+            <div class="user-name">{{ user.get_full_name|default:user.username }}</div>
+            <div class="user-email">{{ user.email }}</div>
+            <div class="ref-label">Referral Code</div>
+            <div class="ref-row">
+              <span class="ref-code" id="refCode">{{ user.userprofile.referral_code|default:"AFAA0000" }}</span>
+              <button class="copy-btn" id="copyRefBtn">Copy</button>
+            </div>
+            <button class="logout-btn" id="logoutBtn">Log Out</button>
+          </div>
+        </div>
+        {% endblock %}
+      {% else %}
+        {% block signup %}
+        <div class="login-signup">
+          <a href="{% url 'login'%}" class="login-btn-liquid">Login/Signup</a>
+        </div>
+        {% endblock %}
+
+        <div class="menu-toggle" id="menuToggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      {% endif %}
     </header>
 
     {% block content %}{% endblock %}

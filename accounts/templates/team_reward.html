@@ -12,15 +12,19 @@
 {% block content %}
 <body class="team-reward-page">
 
+  <!-- ✅ Hero Section from Home Page -->
+  <section class="hero-animated-text">
+    <div class="hero-video-background">
+      <video autoplay muted loop playsinline>
+        <source src="{% static 'Media/blue-waves.mp4' %}" type="video/mp4" />
+      </video>
+    </div>
+    <div class="animated-text-container">
+      <h1 class="animated-typing" id="animatedTyping"></h1>
+      <p class="hero-tagline">Learn, Achieve, Elevate. Your Future Starts Here.</p>
+    </div>
+  </section>
 
-  <div class="video-section">
-    <video autoplay muted loop playsinline>
-      <source src="{% static 'Media/hero-video.mp4' %}" type="video/mp4">
-    </video>
-  </div>
-
-
-  
   <section class="reward-section">
     <div class="bg-video-container">
       <video autoplay muted loop playsinline preload="auto">

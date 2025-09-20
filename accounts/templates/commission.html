@@ -12,20 +12,27 @@
 {% block content %}
 <body class="commission-page">
 
-  <!-- ✅ First Video Section -->
-  <div class="video-section">
-    <video autoplay muted loop playsinline>
-      <source src="/media/hero-video.mp4" type="video/mp4">
-    </video>
-  </div>
+  <!-- ✅ Hero Section from Home Page -->
+  <section class="hero-animated-text">
+    <div class="hero-video-background">
+      <video autoplay muted loop playsinline>
+        <source src="{% static 'Media/blue-waves.mp4' %}" type="video/mp4" />
+      </video>
+    </div>
+    <div class="animated-text-container">
+      <h1 class="animated-typing" id="animatedTyping"></h1>
+      <p class="hero-tagline">Learn, Achieve, Elevate. Your Future Starts Here.</p>
+    </div>
+  </section>
 
   <!-- ✅ Commission Section -->
   <section class="commission-section">
 
     <!-- Background Video -->
     <div class="bg-video-container">
-      <video autoplay muted loop playsinline class="bg-video">
+      <video autoplay muted loop playsinline class="bg-video" preload="metadata">
         <source src="/media/section-bg2.mp4" type="video/mp4">
+        Your browser does not support the video tag.
       </video>
     </div>
 
@@ -34,7 +41,7 @@
 
       <div class="commission-box">
         <h3>Basic Plan – 2999</h3>
-        <p><strong>When you sell a Basic Plan:</strong>
+        <p><strong>When you sell a Basic Plan:</strong><br>
         • Level 1 → 40% (1200)<br>
         • Level 2 → 8% (240)<br>
         • Level 3 → 2% (60)</p>
@@ -47,7 +54,7 @@
 
       <div class="commission-box">
         <h3>Standard Plan – 6999</h3>
-        <p><strong>When you sell a Basic Plan:</strong>
+        <p><strong>When you sell a Basic Plan:</strong><br>
         • Level 1 → 40% (1200)<br>
         • Level 2 → 8% (240)<br>
         • Level 3 → 2% (60)</p>
@@ -60,7 +67,7 @@
 
       <div class="commission-box">
         <h3>Advance Plan – 12999</h3>
-        <p><strong>When you sell a Basic Plan:</strong>
+        <p><strong>When you sell a Basic Plan:</strong><br>
         • Level 1 → 42% (1260)<br>
         • Level 2 → 8% (240)<br>
         • Level 3 → 2% (60)</p>
@@ -73,11 +80,11 @@
 
       <div class="commission-box">
         <h3>Pro Plan – 19999</h3>
-        <p><strong>When you sell a Basic Plan:</strong>
+        <p><strong>When you sell a Basic Plan:</strong><br>
         • Level 1 → 45% (1350)<br>
         • Level 2 → 8% (240)<br>
         • Level 3 → 2% (60)</p>
-        <p><strong>When you sell higher plans:</strong>
+        <p><strong>When you sell higher plans:</strong><br>
         • Standard → 52% (3640)<br>
         • Advance → 56% (7280)<br>
         • Pro → 60% (12000)</p>

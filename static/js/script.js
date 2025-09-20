@@ -82,6 +82,94 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
+  // 4. Logout functionality
+  const logoutButton = document.getElementById('logout-button');
+  if (logoutButton) {
+    logoutButton.addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      // Show confirmation dialog
+      if (confirm('Are you sure you want to logout?')) {
+        // Create a form to submit logout request
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/accounts/logout/';
+        
+        // Add CSRF token
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]');
+        if (csrfToken) {
+          const csrfInput = document.createElement('input');
+          csrfInput.type = 'hidden';
+          csrfInput.name = 'csrfmiddlewaretoken';
+          csrfInput.value = csrfToken.value;
+          form.appendChild(csrfInput);
+        }
+        
+        document.body.appendChild(form);
+        form.submit();
+      }
+    });
+  }
+
+  // CSRF Token Refresh Functionality
+  // Refresh CSRF token every 30 minutes to prevent failures
+  function refreshCSRFToken() {
+    fetch('/csrf-refresh/', {
+      method: 'GET',
+      credentials: 'same-origin',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error('CSRF refresh failed');
+    })
+    .then(data => {
+      if (data.csrf_token) {
+        // Update all CSRF tokens on the page
+        const csrfTokens = document.querySelectorAll('input[name="csrfmiddlewaretoken"]');
+        csrfTokens.forEach(token => {
+          token.value = data.csrf_token;
+        });
+        
+        // Update meta tag if exists
+        const csrfMeta = document.querySelector('meta[name="csrf-token"]');
+        if (csrfMeta) {
+          csrfMeta.content = data.csrf_token;
+        }
+        
+        console.log('CSRF token refreshed successfully');
+      }
+    })
+    .catch(error => {
+      console.warn('CSRF token refresh failed:', error);
+    });
+  }
+
+  // Set up periodic CSRF token refresh (every 30 minutes)
+  setInterval(refreshCSRFToken, 30 * 60 * 1000);
+  
+  // Also refresh on user activity after long inactivity
+  let lastActivity = Date.now();
+  const inactivityThreshold = 25 * 60 * 1000; // 25 minutes
+  
+  function updateActivity() {
+    const now = Date.now();
+    if (now - lastActivity > inactivityThreshold) {
+      refreshCSRFToken();
+    }
+    lastActivity = now;
+  }
+  
+  // Listen for user activity
+  ['click', 'keypress', 'scroll', 'mousemove'].forEach(eventType => {
+    document.addEventListener(eventType, updateActivity, { passive: true });
+  });
+
 });
 
 // Toggle text function for course descriptions with smooth animation
