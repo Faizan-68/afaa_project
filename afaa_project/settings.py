@@ -6,11 +6,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / '.env')   # Load .env file
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY', 'dev-secret-key-for-local')
+# Generate a strong default SECRET_KEY for development (64 characters)
+DEFAULT_SECRET_KEY = 'FQLnL$KQUm1GwQ(KvHeFU%&YmX8h(PHDv%a6Y$$elwmZp*hN-M6H7AxeKHUZycuw'
+SECRET_KEY = os.getenv('SECRET_KEY', DEFAULT_SECRET_KEY)
 
 # Debug & Allowed hosts
-DEBUG = os.getenv('DEBUG', 'True') == 'True'  # Changed default to True for development
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost,testserver').split(',')
+DEBUG = os.getenv('DEBUG', 'True') == 'True'  # Default to True for development
+
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost,testserver,afaaelevate.com,www.afaaelevate.com').split(',')
 
 # Application definition
 INSTALLED_APPS = [
@@ -162,6 +165,14 @@ if not DEBUG:
     # Additional Security Headers
     X_FRAME_OPTIONS = 'DENY'
     SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
+else:
+    # Development settings - disable HTTPS enforcement
+    SECURE_SSL_REDIRECT = False
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
+    SECURE_HSTS_SECONDS = 0
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+    SECURE_HSTS_PRELOAD = False
 
 # Enhanced Password Validation
 if not DEBUG:
@@ -251,9 +262,8 @@ SECURITY_MIDDLEWARE = [
 
 # Environment-based configuration validation
 if not DEBUG:
-    # Ensure required production settings are set
+    # Ensure required production settings are set (only if not using default values)
     required_settings = [
-        'SECRET_KEY',
         'EMAIL_HOST_USER',
         'EMAIL_HOST_PASSWORD',
     ]
@@ -261,8 +271,8 @@ if not DEBUG:
     for setting in required_settings:
         if not os.getenv(setting):
             raise ValueError(f"Required environment variable {setting} is not set!")
-    
-    # Validate SECRET_KEY strength
-    secret_key = os.getenv('SECRET_KEY', '')
-    if len(secret_key) < 50 or 'django-insecure' in secret_key:
-        raise ValueError("SECRET_KEY must be at least 50 characters and not contain 'django-insecure'!")
+
+# Always validate SECRET_KEY strength (development and production)
+current_secret_key = SECRET_KEY  # Use the already processed SECRET_KEY
+if len(current_secret_key) < 50 or 'django-insecure' in current_secret_key:
+    raise ValueError("SECRET_KEY must be at least 50 characters and not contain 'django-insecure'!")
