@@ -271,10 +271,6 @@ class Payment(models.Model):
         return f"{self.user.username} - {self.amount} ({self.status})"
 
 
-# Signals: create a profile automatically
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        UserProfile.objects.create(user=instance, plan='NONE')
+# Signals are now handled in accounts/signals.py to avoid conflicts
 
 

@@ -11,9 +11,9 @@ DEFAULT_SECRET_KEY = 'FQLnL$KQUm1GwQ(KvHeFU%&YmX8h(PHDv%a6Y$$elwmZp*hN-M6H7AxeKH
 SECRET_KEY = os.getenv('SECRET_KEY', DEFAULT_SECRET_KEY)
 
 # Debug & Allowed hosts
-DEBUG = os.getenv('DEBUG', 'True') == 'True'  # Default to True for development
+DEBUG = 'False'  # Default to True for development
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost,testserver,afaaelevate.com,www.afaaelevate.com').split(',')
+ALLOWED_HOSTS = ['72.60.209.68', 'afaaelevate.com', 'www.afaaelevate.com', '127.0.0.1','localhost']
 
 # Application definition
 INSTALLED_APPS = [
@@ -71,11 +71,15 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
-# Database (SQLite by default)
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'afaadb',
+        'USER': 'myprojectuser',
+        'PASSWORD': 'Aftaab@@1234',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
@@ -83,8 +87,7 @@ DATABASES = {
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
+    },    {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {

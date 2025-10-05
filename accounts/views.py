@@ -224,15 +224,11 @@ def signup_view(request):
                 with transaction.atomic():
                     user = form.save()
                     
-                    # Ensure profile exists, which should be created by signals
-                    profile = getattr(user, 'userprofile', None)
-                    if not profile:
-                        # This is a fallback, should not happen if signals are correct
-                        profile = UserProfile.objects.create(user=user)
-
-                    # Handle referral logic
+                    # Get the profile that was created and updated by the form
+                    profile = user.userprofile
+                    
+                    # Handle referral logic - only update referred_by if needed
                     referral_code_input = form.cleaned_data.get('referral_code')
-                    referred_by = None
                     if referral_code_input:
                         try:
                             # Find referrer by referral code or username
@@ -240,11 +236,14 @@ def signup_view(request):
                                 Q(referral_code__iexact=referral_code_input) | Q(user__username__iexact=referral_code_input)
                             )
                             referred_by = referrer_profile.user
+                            # Only update referred_by field, don't overwrite other fields
                             profile.referred_by = referred_by
+                            profile.save()
                         except UserProfile.DoesNotExist:
                             messages.warning(request, f"Referral code '{referral_code_input}' not found, but registration completed.")
-                    
-                    profile.save()
+                            referred_by = None
+                    else:
+                        referred_by = profile.referred_by
 
                     # Store Referral chain
                     level_1 = referred_by
@@ -500,6 +499,7 @@ def commission_view(request):
 def team_reward_view(request):
     return render(request, "team_reward.html")
 
+@login_required
 def payments_view(request):
     return render(request, "payments.html")
 def privacy_policy_view(request):

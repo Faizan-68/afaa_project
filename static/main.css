@@ -4758,3 +4758,128 @@ body {
     background: rgba(0, 0, 0, 0.3) !important;
   }
 }
+
+/* Floating WhatsApp Button Styles */
+.floating-whatsapp-btn {
+  position: fixed !important;
+  right: 20px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  z-index: 9999 !important;
+  background: linear-gradient(135deg, #25d366 0%, #128c7e 100%) !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 50px !important;
+  padding: 12px 15px !important;
+  cursor: pointer !important;
+  box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4) !important;
+  transition: all 0.3s ease !important;
+  animation: float 3s ease-in-out infinite;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 8px !important;
+  min-width: 110px !important;
+  backdrop-filter: blur(10px) !important;
+  transition: ease-in-out 0.3s !important;
+}
+
+.floating-whatsapp-btn:hover {
+  transform: translateY(-50%) scale(1.1) !important;
+  box-shadow: 0 12px 35px rgba(37, 211, 102, 0.6) !important;
+}
+
+.floating-whatsapp-btn:active {
+  transform: translateY(-50%) scale(0.95) !important;
+}
+
+/* Floating animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(-50%);
+  }
+  50% {
+    transform: translateY(-55%);
+  }
+}
+
+/* WhatsApp Invite Button Styles */
+.whatsapp-invite-btn {
+  transition: all 0.3s ease !important;
+}
+
+.whatsapp-invite-btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2) !important;
+  background: #f0f9ff !important;
+}
+
+.whatsapp-invite-btn:active {
+  transform: translateY(0px) !important;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+}
+
+/* Responsive styles for floating button */
+@media (max-width: 768px) {
+  .floating-whatsapp-btn {
+    right: 15px !important;
+    top: 45% !important;
+    padding: 6px 12px !important;
+    min-width: 100px !important;
+    gap: 6px !important;
+  }
+  
+  .floating-whatsapp-btn svg {
+    width: 20px !important;
+    height: 20px !important;
+  }
+  
+  .floating-whatsapp-btn div {
+    font-size: 9px !important;
+  }
+  
+  .floating-whatsapp-btn div:last-child {
+    font-size: 7px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .floating-whatsapp-btn {
+    right: 10px !important;
+    top: 40% !important;
+    padding: 5px 10px !important;
+    min-width: 90px !important;
+    gap: 5px !important;
+    display: flex !important;
+  }
+  
+  .floating-whatsapp-btn svg {
+    width: 18px !important;
+    height: 18px !important;
+  }
+  
+  .floating-whatsapp-btn div {
+    font-size: 15px !important;
+  }
+  
+  .floating-whatsapp-btn div:last-child {
+    font-size: 6px !important;
+  }
+}
+
+/* Invite Section Responsive */
+@media (max-width: 768px) {
+  .invite-section {
+    margin: 20px 0 !important;
+    padding: 20px !important;
+  }
+  
+  .whatsapp-invite-btn {
+    padding: 12px 25px !important;
+    font-size: 1rem !important;
+  }
+  
+  .referral-info {
+    padding: 12px !important;
+  }
+}

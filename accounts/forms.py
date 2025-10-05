@@ -19,13 +19,13 @@ class SignUpForm(UserCreationForm):
         user.email = self.cleaned_data['email']
         if commit:
             user.save()
-            # Create or update UserProfile with additional fields
+            # The UserProfile is created by signals, so just update it with form data
             from .models import UserProfile
-            profile, created = UserProfile.objects.get_or_create(user=user)
+            profile = user.userprofile  # Should exist due to signal
             
-            # Set profile fields
+            # Set profile fields from form
             profile.mobile = self.cleaned_data.get('mobile', '')
             profile.dob = self.cleaned_data.get('dob')
-            profile.referral_code = user.username  # User's own referral code (simple and clean)
+            # referral_code is already set by signal to username, no need to override
             profile.save()
         return user
