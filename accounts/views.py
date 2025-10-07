@@ -517,7 +517,7 @@ def commission_view(request):
 def team_reward_view(request):
     return render(request, "team_reward.html")
 
-@login_required
+
 def payments_view(request):
     return render(request, "payments.html")
 def privacy_policy_view(request):
