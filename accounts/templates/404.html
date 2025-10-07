@@ -1,0 +1,172 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found - Afaa Elevate</title>
+    <link rel="stylesheet" href="{% static 'main.css' %}">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .error-container {
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f5f5f5;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+        
+        .error-content {
+            max-width: 500px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            padding: 40px 30px;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .error-code {
+            font-size: 6rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            opacity: 0.8;
+            line-height: 1;
+            color: #0077b6;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .error-message {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .error-description {
+            font-size: 1rem;
+            margin-bottom: 30px;
+            opacity: 0.7;
+            line-height: 1.6;
+            color: #666;
+        }
+        
+        .error-btn {
+            background: linear-gradient(90deg, #A1ECFF, #D9B4FF, #F7B0E6);
+            color: #000;
+            padding: 14px 30px;
+            border: none;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.4s ease;
+            display: inline-block;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(161, 236, 255, 0.4);
+            position: relative;
+            overflow: hidden;
+            background-size: 200% auto;
+            animation: pulseGlow 2.5s infinite;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 5px 15px rgba(161, 236, 255, 0.4), 0 0 0 rgba(217, 180, 255, 0.2); }
+            50% { box-shadow: 0 8px 25px rgba(161, 236, 255, 0.6), 0 0 10px rgba(247, 176, 230, 0.3); }
+            100% { box-shadow: 0 5px 15px rgba(161, 236, 255, 0.4), 0 0 0 rgba(217, 180, 255, 0.2); }
+        }
+        
+        .error-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            background-position: right center;
+            color: #000;
+            text-decoration: none;
+            box-shadow: 0 10px 30px rgba(161, 236, 255, 0.8);
+        }
+        
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .error-content {
+                padding: 30px 20px;
+                margin: 20px;
+            }
+            .error-code {
+                font-size: 4rem;
+                margin-bottom: 10px;
+            }
+            .error-message {
+                font-size: 1.2rem;
+                margin-bottom: 15px;
+            }
+            .error-description {
+                font-size: 0.9rem;
+                margin-bottom: 25px;
+            }
+            .error-btn {
+                padding: 12px 25px;
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .error-container {
+                padding: 15px;
+            }
+            .error-content {
+                padding: 25px 15px;
+                border-radius: 15px;
+            }
+            .error-code {
+                font-size: 3rem;
+            }
+            .error-message {
+                font-size: 1rem;
+            }
+            .error-description {
+                font-size: 0.85rem;
+            }
+            .error-btn {
+                padding: 10px 20px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-content">
+            <div class="error-code">404</div>
+            <div class="error-message">Page Not Found</div>
+            <div class="error-description">
+                Sorry, the page you are looking for doesn't exist or has been moved.
+            </div>
+            <a href="{% url 'home' %}" class="error-btn">Go Back Home</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -212,68 +212,86 @@ def home_view(request):
     return render(request, 'main.html')
 
 def signup_view(request):
-    # Store referral code from URL in session if present
-    referral_code = request.GET.get('ref') or request.GET.get('referral')
-    if referral_code:
-        request.session['referral_code'] = referral_code
-    
-    if request.method == 'POST':
-        form = SignUpForm(request.POST)
-        if form.is_valid():
-            try:
-                with transaction.atomic():
-                    user = form.save()
-                    
-                    # Get the profile that was created and updated by the form
-                    profile = user.userprofile
-                    
-                    # Handle referral logic - only update referred_by if needed
-                    referral_code_input = form.cleaned_data.get('referral_code')
-                    if referral_code_input:
-                        try:
-                            # Find referrer by referral code or username
-                            referrer_profile = UserProfile.objects.select_related('user').get(
-                                Q(referral_code__iexact=referral_code_input) | Q(user__username__iexact=referral_code_input)
-                            )
-                            referred_by = referrer_profile.user
-                            # Only update referred_by field, don't overwrite other fields
-                            profile.referred_by = referred_by
-                            profile.save()
-                        except UserProfile.DoesNotExist:
-                            messages.warning(request, f"Referral code '{referral_code_input}' not found, but registration completed.")
-                            referred_by = None
-                    else:
-                        referred_by = profile.referred_by
-
-                    # Store Referral chain
-                    level_1 = referred_by
-                    level_2 = level_3 = None
-                    if level_1 and hasattr(level_1, 'userprofile'):
-                        level_2 = level_1.userprofile.referred_by
-                        if level_2 and hasattr(level_2, 'userprofile'):
-                            level_3 = level_2.userprofile.referred_by
-                    
-                    Referral.objects.create(referred=user, level_1=level_1, level_2=level_2, level_3=level_3)
-
-                # Login and redirect on success
-                login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-                messages.success(request, "Successfully registered! Welcome.")
-                return redirect('dashboard')
-
-            except IntegrityError:
-                messages.error(request, "A user with this username or email already exists.")
-            except Exception as e:
-                # Catch any other unexpected errors
-                messages.error(request, f"An unexpected error occurred during registration: {e}")
-                # Optionally, log the error for debugging
-                # logger.error(f"Registration failed: {e}")
-
-        else:
-            messages.error(request, "Please fix the errors below.")
-    else:
-        form = SignUpForm()
+    """Enhanced signup view with comprehensive error handling"""
+    try:
+        # Store referral code from URL in session if present
+        referral_code = request.GET.get('ref') or request.GET.get('referral')
+        if referral_code:
+            request.session['referral_code'] = referral_code
         
-    return render(request, 'signup.html', {'form': form})
+        if request.method == 'POST':
+            form = SignUpForm(request.POST)
+            if form.is_valid():
+                try:
+                    with transaction.atomic():
+                        user = form.save()
+                        
+                        # Get the profile that was created and updated by the form
+                        profile = user.userprofile
+                        
+                        # Handle referral logic - only update referred_by if needed
+                        referral_code_input = form.cleaned_data.get('referral_code')
+                        if referral_code_input:
+                            try:
+                                # Find referrer by referral code or username
+                                referrer_profile = UserProfile.objects.select_related('user').get(
+                                    Q(referral_code__iexact=referral_code_input) | Q(user__username__iexact=referral_code_input)
+                                )
+                                referred_by = referrer_profile.user
+                                # Only update referred_by field, don't overwrite other fields
+                                profile.referred_by = referred_by
+                                profile.save()
+                            except UserProfile.DoesNotExist:
+                                messages.warning(request, f"Referral code '{referral_code_input}' not found, but registration completed.")
+                                referred_by = None
+                        else:
+                            referred_by = profile.referred_by
+
+                        # Store Referral chain
+                        level_1 = referred_by
+                        level_2 = level_3 = None
+                        if level_1 and hasattr(level_1, 'userprofile'):
+                            level_2 = level_1.userprofile.referred_by
+                            if level_2 and hasattr(level_2, 'userprofile'):
+                                level_3 = level_2.userprofile.referred_by
+                        
+                        Referral.objects.create(referred=user, level_1=level_1, level_2=level_2, level_3=level_3)
+
+                    # Login and redirect on success
+                    login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+                    messages.success(request, "Successfully registered! Welcome.")
+                    return redirect('dashboard')
+
+                except IntegrityError as e:
+                    # Handle database level integrity constraints
+                    error_message = str(e).lower()
+                    if 'email' in error_message or 'unique' in error_message:
+                        messages.error(request, "This email address is already registered. Please use a different email or try to login.")
+                    else:
+                        messages.error(request, "A user with this username already exists. Please choose a different username.")
+                except Exception as e:
+                    # Catch any other unexpected errors
+                    messages.error(request, f"An unexpected error occurred during registration: {e}")
+                    # Optionally, log the error for debugging
+                    # logger.error(f"Registration failed: {e}")
+            else:
+                messages.error(request, "Please fix the errors below.")
+        else:
+            form = SignUpForm()
+        
+        return render(request, 'signup.html', {'form': form})
+
+    except Exception as e:
+        # Comprehensive error handling for any view-level errors
+        messages.error(request, "An error occurred while loading the signup page. Please try again.")
+        # Log the error for debugging
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.error(f"Signup view error: {e}")
+        
+        # Return a simple form in case of error
+        form = SignUpForm()
+        return render(request, 'signup.html', {'form': form})
 
 
 @login_required

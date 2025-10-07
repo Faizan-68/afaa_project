@@ -14,6 +14,15 @@ class SignUpForm(UserCreationForm):
         model = User
         fields = ['username', 'email', 'password1', 'password2', 'mobile', 'dob', 'referral_code']
 
+    def clean_email(self):
+        """Check if email is already registered"""
+        email = self.cleaned_data.get('email')
+        if email:
+            # Check if email already exists (case-insensitive)
+            if User.objects.filter(email__iexact=email).exists():
+                raise forms.ValidationError("This email is already registered. Please use a different email or try to login.")
+        return email
+
     def save(self, commit=True):
         user = super().save(commit=False)
         user.email = self.cleaned_data['email']

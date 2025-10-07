@@ -11,7 +11,7 @@ DEFAULT_SECRET_KEY = 'FQLnL$KQUm1GwQ(KvHeFU%&YmX8h(PHDv%a6Y$$elwmZp*hN-M6H7AxeKH
 SECRET_KEY = os.getenv('SECRET_KEY', DEFAULT_SECRET_KEY)
 
 # Debug & Allowed hosts
-DEBUG = 'False'  # Default to True for development
+DEBUG = os.getenv('DEBUG', 'True').lower() in ['true', '1', 'yes', 'on']
 
 ALLOWED_HOSTS = ['72.60.209.68', 'afaaelevate.com', 'www.afaaelevate.com', '127.0.0.1','localhost']
 
@@ -35,6 +35,7 @@ LOGOUT_REDIRECT_URL = 'login'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Add whitenoise for static files
     'django.contrib.sessions.middleware.SessionMiddleware',
     'accounts.middleware.ReferralMiddleware',  # Add referral middleware after session
     'django.middleware.common.CommonMiddleware',
@@ -87,8 +88,12 @@ DATABASES = {
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },    {
+    },
+    {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 8,
+        }
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
@@ -181,7 +186,7 @@ else:
 if not DEBUG:
     AUTH_PASSWORD_VALIDATORS.extend([
         {
-            'NAME': 'django.contrib.auth.password_validation.AttributeSimilarityValidator',
+            'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
             'OPTIONS': {
                 'user_attributes': ('username', 'email', 'first_name', 'last_name'),
                 'max_similarity': 0.7,
@@ -190,7 +195,7 @@ if not DEBUG:
         {
             'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
             'OPTIONS': {
-                'min_length': 12,
+                'min_length': 8,
             }
         },
     ])
@@ -279,3 +284,12 @@ if not DEBUG:
 current_secret_key = SECRET_KEY  # Use the already processed SECRET_KEY
 if len(current_secret_key) < 50 or 'django-insecure' in current_secret_key:
     raise ValueError("SECRET_KEY must be at least 50 characters and not contain 'django-insecure'!")
+
+# Whitenoise configuration for production static and media file serving
+WHITENOISE_USE_FINDERS = True
+WHITENOISE_AUTOREFRESH = True
+
+# Configure whitenoise to serve media files in production
+if not DEBUG:
+    WHITENOISE_ROOT = MEDIA_ROOT
+    WHITENOISE_PREFIX = '/media/'
