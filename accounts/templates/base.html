@@ -17,7 +17,7 @@
       rel="stylesheet"
     />
 
-    <link rel="stylesheet" href="{% static 'main.css'%}?v=20251004v2" />
+    <link rel="stylesheet" href="{% static 'main.css'%}?v=20251004v7" />
     {% block extra_css %}{% endblock %}
   </head>
 
@@ -45,6 +45,14 @@
             <a href="#plans">Plans</a>
             {% endblock %}
           </div>
+        </div>
+        <!-- Mobile-only: Show dropdown items directly -->
+        <div class="mobile-only-links">
+          <a href="{% url 'commission'%}" class="nav-link mobile-dropdown-item {% if request.resolver_match.url_name == 'commission' %}active{% endif %}">Commissions</a>
+          <a href="{% url 'rewards'%}" class="nav-link mobile-dropdown-item {% if request.resolver_match.url_name == 'rewards' %}active{% endif %}">Team Rewards</a>
+          <a href="{% url 'payments'%}" class="nav-link mobile-dropdown-item {% if request.resolver_match.url_name == 'payments' %}active{% endif %}">Payments</a>
+          <a href="#review" class="nav-link mobile-dropdown-item">Reviews</a>
+          <a href="#plans" class="nav-link mobile-dropdown-item">Plans</a>
         </div>
       </nav>
 

@@ -196,6 +196,11 @@ body {
   position: relative;
 }
 
+/* Hide mobile-only links on desktop */
+.mobile-only-links {
+  display: none;
+}
+
 
 
 .dropdown-content {
@@ -928,9 +933,19 @@ body {
 
   .nav-links .nav-link,
   .nav-links .dropdown {
+    display: block;
     width: 100%; /* Full width for menu items */
     text-align: left;
-    padding: 10px 0; /* Add vertical padding */
+    padding: 12px 0; /* Add vertical padding */
+    text-decoration: none;
+    color: #0f172a;
+    font-size: 16px;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.1);
+  }
+
+  .nav-links .nav-link:last-child {
+    border-bottom: none;
   }
 
   .nav-links .dropdown-content {
@@ -941,10 +956,75 @@ body {
     background-color: transparent; /* Transparent background */
     border-radius: 0;
     padding-left: 20px; /* Indent dropdown items */
+    display: block; /* Always show in mobile */
   }
 
   .nav-links .dropdown-content a {
     padding: 8px 0;
+  }
+
+  /* Disable hover behavior on mobile */
+  .dropdown:hover .dropdown-content {
+    display: none; /* Disable hover behavior on mobile */
+  }
+
+  /* Hide dropdown arrow on mobile - replace text */
+  .nav-links .dropdown-btn {
+    position: relative;
+  }
+
+  .nav-links .dropdown-btn::before {
+    content: 'Other';
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: inherit;
+    color: inherit;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Ensure dropdown content shows on mobile when nav is active */
+  .nav-links.active .dropdown-content {
+    display: block !important;
+  }
+
+  /* Hide desktop dropdown on mobile, show mobile-only links */
+  .nav-links .dropdown {
+    display: none;
+  }
+
+  .nav-links .mobile-only-links {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .nav-links .mobile-dropdown-item {
+    display: block;
+    width: 100%;
+    padding: 10px 0 10px 20px; /* Indent mobile dropdown items */
+    border-left: 3px solid transparent;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.05);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: #64748b;
+    font-size: 14px;
+    font-weight: 400;
+    margin-bottom: 2px;
+  }
+
+  .nav-links .mobile-dropdown-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+  }
+
+  .nav-links .mobile-dropdown-item:hover,
+  .nav-links .mobile-dropdown-item.active {
+    border-left-color: #0ea5e9;
+    background-color: rgba(14, 165, 233, 0.1);
   }
 
   .menu-toggle {
@@ -1901,12 +1981,6 @@ body {
   }
 }
 
-
-
-
-
-
-
 /* ====== Login Page Styles (Centered, No Image) ====== */
 .login-section {
   padding: 20px;
@@ -1922,9 +1996,8 @@ body {
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
   box-sizing: border-box;
-  width: 420px !important;
-  max-width: 420px !important;
-  min-width: 320px !important;
+  width: 420px;
+  max-width: 90vw;
   margin: 0 auto;
   flex-shrink: 0;
   position: relative;
@@ -1935,8 +2008,7 @@ body {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  width: 100% !important;
-  max-width: 100% !important;
+  width: 100%;
   overflow: hidden;
 }
 
@@ -2286,16 +2358,308 @@ body {
     min-height: 250px;
   }
   
-  /* Login page adjustments */
+/* ===== LOGIN PAGE RESPONSIVE DESIGN ===== */
+
+/* Tablet and small desktop (768px - 1024px) */
+@media (max-width: 1024px) and (min-width: 769px) {
   .login-section {
-    padding: 40px 15px;
+    padding: 30px 20px;
   }
+  
   .login-container {
-    margin: 0 10px;
+    width: 450px;
+    max-width: 85vw;
   }
+  
   .login-card {
-    padding: 40px 30px;
+    padding: 35px 25px;
   }
+  
+  .login-card h2 {
+    font-size: 26px;
+  }
+}
+
+/* Tablet (768px and below) */
+@media (max-width: 768px) {
+  .login-section {
+    padding: 20px 15px;
+    min-height: calc(100vh - 70px);
+  }
+  
+  .login-container {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    border-radius: 12px;
+  }
+  
+  .login-card {
+    padding: 30px 25px;
+  }
+  
+  .login-card h2 {
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+  
+  .login-subtext {
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 18px;
+  }
+  
+  .form-group input {
+    padding: 12px 15px;
+    font-size: 15px;
+  }
+  
+  .auth-btn {
+    padding: 14px;
+    font-size: 16px;
+  }
+}
+
+/* Mobile Large (576px - 767px) */
+@media (max-width: 767px) and (min-width: 577px) {
+  .login-section {
+    padding: 15px 10px;
+  }
+  
+  .login-container {
+    width: calc(100vw - 20px);
+    max-width: 450px;
+    margin: 10px auto;
+  }
+  
+  .login-card {
+    padding: 25px 20px;
+  }
+  
+  .login-card h2 {
+    font-size: 22px;
+  }
+}
+
+/* Mobile (576px and below) */
+@media (max-width: 576px) {
+  .login-section {
+    padding: 10px 5px;
+    min-height: calc(100vh - 60px);
+  }
+  
+  .login-container {
+    width: calc(100vw - 20px);
+    max-width: 400px;
+    margin: 10px auto;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .login-card {
+    padding: 20px 15px;
+  }
+  
+  .login-card h2 {
+    font-size: 20px;
+    margin-bottom: 6px;
+  }
+  
+  .login-subtext {
+    font-size: 13px;
+    margin-bottom: 18px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+  
+  .form-group input {
+    padding: 11px 12px;
+    font-size: 14px;
+    border-radius: 6px;
+  }
+  
+  .auth-btn {
+    padding: 12px;
+    font-size: 15px;
+    border-radius: 6px;
+  }
+  
+  .auth-switch {
+    font-size: 13px;
+    margin-top: 15px;
+  }
+  
+  .forgot-link {
+    font-size: 12px;
+  }
+  
+  /* Error messages responsive */
+  .error-container,
+  .success-container {
+    padding: 10px 12px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+  }
+  
+  .error-content,
+  .success-content {
+    font-size: 13px;
+  }
+  
+  .field-error {
+    font-size: 12px;
+    margin-top: 4px;
+  }
+}
+
+/* Small Mobile (480px and below) */
+@media (max-width: 480px) {
+  .login-section {
+    padding: 8px 3px;
+  }
+  
+  .login-container {
+    width: calc(100vw - 16px);
+    max-width: 350px;
+    margin: 8px auto;
+  }
+  
+  .login-card {
+    padding: 18px 12px;
+  }
+  
+  .login-card h2 {
+    font-size: 18px;
+  }
+  
+  .login-subtext {
+    font-size: 12px;
+    margin-bottom: 15px;
+  }
+  
+  .form-group input {
+    padding: 10px;
+    font-size: 13px;
+  }
+  
+  .auth-btn {
+    padding: 11px;
+    font-size: 14px;
+  }
+}
+
+/* Extra Small Mobile (390px and below) */
+@media (max-width: 390px) {
+  .login-section {
+    padding: 5px 2px;
+    min-height: calc(100vh - 50px);
+  }
+  
+  .login-container {
+    width: calc(100vw - 12px);
+    max-width: 320px;
+    margin: 6px auto;
+    border-radius: 8px;
+  }
+  
+  .login-card {
+    padding: 15px 10px;
+  }
+  
+  .login-card h2 {
+    font-size: 16px;
+    margin-bottom: 4px;
+  }
+  
+  .login-subtext {
+    font-size: 11px;
+    margin-bottom: 12px;
+  }
+  
+  .form-group {
+    margin-bottom: 12px;
+  }
+  
+  .form-group label {
+    font-size: 13px;
+    margin-bottom: 4px;
+  }
+  
+  .form-group input {
+    padding: 9px 8px;
+    font-size: 12px;
+    border-radius: 4px;
+  }
+  
+  .auth-btn {
+    padding: 10px;
+    font-size: 13px;
+    border-radius: 4px;
+  }
+  
+  .auth-switch {
+    font-size: 12px;
+    margin-top: 12px;
+  }
+  
+  .forgot-link {
+    font-size: 11px;
+  }
+}
+
+/* Ultra Small Mobile (320px and below) */
+@media (max-width: 320px) {
+  .login-section {
+    padding: 3px 1px;
+  }
+  
+  .login-container {
+    width: calc(100vw - 8px);
+    max-width: 300px;
+    margin: 4px auto;
+  }
+  
+  .login-card {
+    padding: 12px 8px;
+  }
+  
+  .login-card h2 {
+    font-size: 15px;
+  }
+  
+  .login-subtext {
+    font-size: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .form-group input {
+    padding: 8px 6px;
+    font-size: 11px;
+  }
+  
+  .auth-btn {
+    padding: 9px;
+    font-size: 12px;
+  }
+  
+  .auth-switch {
+    font-size: 11px;
+  }
+  
+  .forgot-link {
+    font-size: 10px;
+  }
+}
 }
 
 @media (max-width: 576px) {
@@ -2506,7 +2870,7 @@ body {
   .invite-friend-btn {
     bottom: 16px;
     right: 10px;
-    padding: 10px 16px 10px 12px;
+    padding: 10px 16px;
     font-size: 15px;
   }
 }
@@ -2862,7 +3226,7 @@ body {
   content: '';
   width: 80px;
   height: 4px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #667eea, #764ba2);
   position: absolute;
   bottom: -10px;
   left: 50%;
@@ -3827,7 +4191,7 @@ body {
 
 .empty-referrals {
   text-align: center;
-  padding: 40px 20px;
+  padding: 60px 20px;
   color: #6b7280;
   font-style: italic;
 }
@@ -3849,10 +4213,196 @@ body {
   font-size: 0.95rem;
 }
 
-/* 📱 Mobile Responsive */
+/* 📱 Medium Small Mobile (391px to 480px) */
+@media (max-width: 480px) and (min-width: 391px) {
+  .plan-cards-container {
+    gap: 18px;
+    padding: 0 15px;
+  }
+  
+  .plan-referral-card {
+    width: calc(100% - 30px);
+    max-width: 320px;
+    padding: 25px 20px;
+  }
+  
+  .referral-summary {
+    gap: 20px;
+  }
+  
+  .total-referrals-card,
+  .total-earnings-card {
+    min-width: 280px;
+  }
+}
+
+/* 📱 Medium Mobile (480px to 391px) - Referrals overview and plan cards optimization */
+@media (max-width: 480px) and (min-width: 391px) {
+  .referrals-section {
+    padding: 18px 12px;
+    margin: 12px 0;
+  }
+  
+  .referrals-section h3 {
+    font-size: 1.4rem;
+    margin-bottom: 18px;
+  }
+  
+  .plan-cards-container {
+    gap: 18px;
+    padding: 0 15px;
+  }
+  
+  .plan-referral-card {
+    width: calc(100% - 30px);
+    max-width: 320px;
+    padding: 25px 20px;
+  }
+  
+  .referral-summary {
+    gap: 18px;
+    margin-bottom: 22px;
+  }
+  
+  .total-referrals-card,
+  .total-earnings-card {
+    min-width: 280px;
+    padding: 22px 18px;
+  }
+  
+  .total-referrals-card h4,
+  .total-earnings-card h4 {
+    font-size: 1.15rem;
+    margin-bottom: 12px;
+  }
+  
+  .total-count,
+  .total-amount {
+    font-size: 2.4rem;
+  }
+}
+
+/* 📱 Small Mobile (390px to 320px) - Fix plan cards and referrals overview responsiveness */
+@media (max-width: 390px) and (min-width: 320px) {
+  .referrals-section {
+    padding: 15px 8px;
+    margin: 10px 0;
+  }
+  
+  .referrals-section h3 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+  }
+  
+  .plan-cards-container {
+    gap: 15px;
+    padding: 0 10px;
+  }
+  
+  .plan-referral-card {
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    padding: 20px 15px;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+  
+  .plan-header h5 {
+    font-size: 1.1rem;
+  }
+  
+  .plan-count {
+    padding: 6px 12px;
+    font-size: 1.2rem;
+  }
+  
+  .referral-summary {
+    gap: 12px;
+    margin-bottom: 20px;
+    padding: 0 5px;
+  }
+  
+  .total-referrals-card,
+  .total-earnings-card {
+    min-width: 260px;
+    padding: 18px 12px;
+  }
+  
+  .total-referrals-card h4,
+  .total-earnings-card h4 {
+    font-size: 1rem;
+    margin-bottom: 8px;
+  }
+  
+  .total-count,
+  .total-amount {
+    font-size: 2rem;
+  }
+}
+
+/* 📱 Extra Small Mobile (below 320px) - Complete referrals overview responsiveness */
+@media (max-width: 319px) {
+  .referrals-section {
+    padding: 12px 5px;
+    margin: 8px 0;
+  }
+  
+  .referrals-section h3 {
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+  }
+  
+  .plan-referral-card {
+    width: calc(100% - 10px);
+    min-width: 260px;
+    padding: 15px 10px;
+  }
+  
+  .plan-header h5 {
+    font-size: 1rem;
+  }
+  
+  .plan-count {
+    padding: 5px 10px;
+    font-size: 1.1rem;
+  }
+  
+  .referral-summary {
+    gap: 10px;
+    margin-bottom: 15px;
+    padding: 0 2px;
+  }
+  
+  .total-referrals-card,
+  .total-earnings-card {
+    min-width: 240px;
+    max-width: 280px;
+    padding: 15px 10px;
+  }
+  
+  .total-referrals-card h4,
+  .total-earnings-card h4 {
+    font-size: 0.9rem;
+    margin-bottom: 6px;
+  }
+  
+  .total-count,
+  .total-amount {
+    font-size: 1.8rem;
+  }
+}
+
+/* 📱 Mobile Responsive - Enhanced for all screen sizes */
 @media (max-width: 768px) {
   .referrals-section {
-    padding: 20px 15px;
+    padding: 20px 10px;
+    margin: 15px 0;
+  }
+  
+  .referrals-section h3 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
   }
   
   .plan-cards-container {
@@ -3868,12 +4418,26 @@ body {
   .referral-summary {
     flex-direction: column;
     align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
   }
   
   .total-referrals-card,
   .total-earnings-card {
-    min-width: 200px;
+    min-width: 240px;
     max-width: 100%;
+    padding: 20px 15px;
+  }
+  
+  .total-referrals-card h4,
+  .total-earnings-card h4 {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+  }
+  
+  .total-count,
+  .total-amount {
+    font-size: 2.2rem;
   }
   
   .user-item {
@@ -4107,6 +4671,12 @@ body {
   background: linear-gradient(90deg, #9f7aea, #805ad5);
 }
 
+.progress-percentage {
+  font-size: 0.8rem;
+  color: #718096;
+  text-align: right;
+  font-weight: 500;
+}
 .progress-percentage {
   font-size: 0.8rem;
   color: #718096;
@@ -4763,8 +5333,7 @@ body {
 .floating-whatsapp-btn {
   position: fixed !important;
   right: 20px !important;
-  top: 50% !important;
-  transform: translateY(-50%) !important;
+  bottom: 20px !important;
   z-index: 9999 !important;
   background: linear-gradient(135deg, #25d366 0%, #128c7e 100%) !important;
   color: white !important;
@@ -4782,15 +5351,16 @@ body {
   min-width: 110px !important;
   backdrop-filter: blur(10px) !important;
   transition: ease-in-out 0.3s !important;
+  max-height: 30px !important;
 }
 
 .floating-whatsapp-btn:hover {
-  transform: translateY(-50%) scale(1.1) !important;
+  transform: scale(1.1) !important;
   box-shadow: 0 12px 35px rgba(37, 211, 102, 0.6) !important;
 }
 
 .floating-whatsapp-btn:active {
-  transform: translateY(-50%) scale(0.95) !important;
+  transform: scale(0.95) !important;
 }
 
 /* Floating animation */

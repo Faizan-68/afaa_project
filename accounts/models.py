@@ -42,7 +42,7 @@ class SiteSetting(models.Model):
     facebook = models.URLField(blank=True, null=True)
     instagram = models.URLField(blank=True, null=True)
     linkedin = models.URLField(blank=True, null=True)
-    twitter = models.URLField(blank=True, null=True)
+    tiktok = models.URLField(blank=True, null=True)
     youtube = models.URLField(blank=True, null=True)
     whatsapp = models.CharField(max_length=50, blank=True, null=True)
     whatsapp_channel = models.URLField(blank=True, null=True)

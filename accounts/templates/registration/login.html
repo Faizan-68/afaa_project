@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login - Afaa Elevate Digital Academy</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="{% static 'main.css' %}" />
+  <link rel="stylesheet" href="{% static 'main.css' %}?v=20251004v7" />
   <link rel="stylesheet" href="{% static 'login-width-fix.css' %}" />
 </head>
 <body>
@@ -23,25 +23,25 @@
   </header>
 
   <section class="login-section">
-    <div class="login-container" style="width: 400px !important; max-width: 400px !important; min-width: 300px !important;">
-      <div class="login-card" style="width: 100% !important; max-width: 100% !important; overflow: hidden !important;">
+    <div class="login-container">
+      <div class="login-card">
         <h2>Welcome Back!</h2>
         <p class="login-subtext">Login to continue your learning journey</p>
         
         <!-- ✅ Functional form with comprehensive error handling -->
-        <form method="post" action="{% url 'login' %}" class="login-form" style="width: 100% !important; max-width: 100% !important; box-sizing: border-box !important;">
+        <form method="post" action="{% url 'login' %}" class="login-form">
           {% csrf_token %}
           
           <!-- Display messages from views (success/error) -->
           {% if messages %}
             {% for message in messages %}
               {% if message.tags == 'success' %}
-                <div class="success-container" style="width: 100% !important; max-width: 100% !important; word-wrap: break-word !important; overflow: hidden !important;">
+                <div class="success-container">
                   <div class="success-icon">✅</div>
                   <div class="success-content">{{ message }}</div>
                 </div>
               {% elif message.tags == 'error' %}
-                <div class="error-container" style="width: 100% !important; max-width: 100% !important; word-wrap: break-word !important; overflow: hidden !important;">
+                <div class="error-container">
                   <div class="error-icon">❌</div>
                   <div class="error-content">{{ message }}</div>
                 </div>
@@ -50,7 +50,7 @@
           {% else %}
             <!-- Only show form errors if no messages from views -->
             {% if form.non_field_errors %}
-              <div class="error-container" style="width: 100% !important; max-width: 100% !important; word-wrap: break-word !important; overflow: hidden !important;">
+              <div class="error-container">
                 <div class="error-icon">⚠️</div>
                 <div class="error-content">
                   {% for error in form.non_field_errors %}
@@ -61,8 +61,8 @@
             {% endif %}
           {% endif %}
 
-          <div class="form-group" style="width: 100% !important; max-width: 100% !important; box-sizing: border-box !important;">
-            <label for="{{ form.username.id_for_label }}">Username or Email</label>
+          <div class="form-group">
+            <label for="{{ form.username.id_for_label }}">Username</label>
             {{ form.username }}
             {% if form.username.errors %}
               <div class="field-error-container">
@@ -76,7 +76,7 @@
             {% endif %}
           </div>
           
-          <div class="form-group" style="width: 100% !important; max-width: 100% !important; box-sizing: border-box !important;">
+          <div class="form-group">
             <label for="{{ form.password.id_for_label }}">Password</label>
             {{ form.password }}
             {% if form.password.errors %}
@@ -106,11 +106,22 @@
       const form = document.querySelector('.login-form');
       const usernameInput = document.querySelector('#id_username');
       const passwordInput = document.querySelector('#id_password');
+      
+      // Track if user has interacted with fields
+      let usernameInteracted = false;
+      let passwordInteracted = false;
 
-      // Add real-time validation
+      // Add real-time validation (only after user interaction)
       if (usernameInput) {
+        usernameInput.addEventListener('focus', function() {
+          usernameInteracted = true;
+        });
+        
         usernameInput.addEventListener('blur', function() {
-          validateField(this, 'Username is required');
+          // Only validate if user has interacted with this field
+          if (usernameInteracted && !this.value.trim()) {
+            validateField(this, 'Username is required');
+          }
         });
         
         usernameInput.addEventListener('input', function() {
@@ -121,8 +132,15 @@
       }
 
       if (passwordInput) {
+        passwordInput.addEventListener('focus', function() {
+          passwordInteracted = true;
+        });
+        
         passwordInput.addEventListener('blur', function() {
-          validateField(this, 'Password is required');
+          // Only validate if user has interacted with this field
+          if (passwordInteracted && !this.value.trim()) {
+            validateField(this, 'Password is required');
+          }
         });
         
         passwordInput.addEventListener('input', function() {
@@ -132,9 +150,10 @@
         });
       }
 
-      // Form submission validation
+      // Form submission validation (only when actually submitting the login form)
       if (form) {
         form.addEventListener('submit', function(e) {
+          // Only validate on actual form submission
           let isValid = true;
           
           if (usernameInput && !usernameInput.value.trim()) {
