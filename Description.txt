@@ -1,0 +1,18 @@
+AFAA Learning Management System - Professional E-Learning Platform
+
+This is a sophisticated Django 5.2.7-powered Learning Management System (LMS) featuring a comprehensive multi-level affiliate marketing platform designed for online education and digital course distribution. The application combines modern web technologies with advanced business logic to create a complete e-learning ecosystem.
+
+Core Technologies & Architecture: Built on Django 5.2.7 with responsive frontend design supporting all devices (mobile-first approach with breakpoints from 320px to 1200px+). Production deployment utilizes WhiteNoise middleware for static file serving, PostgreSQL/SQLite database integration, and comprehensive error handling with custom 404/500 pages.
+
+Key Features:
+
+Multi-Tier Subscription System: BASIC, STANDARD, ADVANCE, and PRO membership plans with dynamic pricing and course access control
+Advanced Course Management: Complete course catalog with thumbnail galleries, video content, and structured learning paths
+Sophisticated Referral Network: Multi-level commission system with configurable rates, automatic tracking, and team reward achievements
+Secure Authentication: Enhanced signup/login with email uniqueness validation, 8-character password requirements, and Google OAuth integration
+Commission Analytics: Real-time commission tracking, payment proof uploads, and comprehensive admin dashboard for monitoring affiliate performance
+Responsive Media Management: Background video integration, thumbnail serving, and optimized media delivery across all devices
+Business Intelligence: The platform includes automated commission calculations across multiple referral levels, team reward systems based on performance metrics, and comprehensive payment tracking with manual verification workflows. Admin tools provide complete oversight of user progression, referral chain management, and revenue analytics.
+
+This production-ready application successfully combines educational content delivery with affiliate marketing automation, creating a scalable platform for digital course monetization and community growth.
+
